@@ -10,11 +10,9 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
     where TRequest : IRequest<TResponse>, ISecuredRequest
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    HttpContextAccessor httpContextAccessor;
     public AuthorizationBehavior(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
-        httpContextAccessor = new HttpContextAccessor();
     }
 
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken,
