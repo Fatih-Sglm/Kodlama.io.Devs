@@ -24,8 +24,8 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetPr
         }
         public async Task<PLLDto> Handle(GetProgramingLanguagerQuery request, CancellationToken cancellationToken)
         {
-
-            var pl = await _programingLanguageBussinesRules.BrandShouldExist(request.id);
+            var pl = await _programingLanguageRepository.GetAsync(b => b.Id == request.id);
+            _programingLanguageBussinesRules.ProgramingLanguageShouldExist(pl);
             return _mapper.Map<PLLDto>(pl);
         }
     }

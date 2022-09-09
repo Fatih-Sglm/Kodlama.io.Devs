@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Models;
@@ -8,9 +9,12 @@ using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetListProgramingLanguage
 {
-    public class GetListProgramingLanguageQuery : IRequest<PLListModel>
+    public class GetListProgramingLanguageQuery : IRequest<PLListModel>, ISecuredRequest
     {
         public PageRequest PageRequest { get; set; }
+
+        public string[] Roles => new string[] { "admin" };
+
         public class GetListBrandQueryHandler : IRequestHandler<GetListProgramingLanguageQuery, PLListModel>
         {
             private readonly IProgramingLanguageRepository _programingLanguageRepository;
@@ -24,10 +28,8 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetLi
 
             public async Task<PLListModel> Handle(GetListProgramingLanguageQuery request, CancellationToken cancellationToken)
             {
-
                 IPaginate<ProgramingLanguage> pl = await _programingLanguageRepository.GetListAsync(index: request.PageRequest.Page, size: request.PageRequest.PageSize);
-                var v = _mapper.Map<PLListModel>(pl);
-                return v;
+                return _mapper.Map<PLListModel>(pl);
             }
         }
     }

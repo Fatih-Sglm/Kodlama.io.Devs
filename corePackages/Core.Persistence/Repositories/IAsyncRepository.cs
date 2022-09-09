@@ -1,12 +1,12 @@
-﻿using System.Linq.Expressions;
-using Core.Persistence.Paging;
+﻿using Core.Persistence.Paging;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 
 namespace Core.Persistence.Repositories;
 
 public interface IAsyncRepository<T> : IQuery<T> where T : Entity
 {
-    Task<T?> GetAsync(Expression<Func<T, bool>> predicate);
+    Task<T?> GetAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
 
     Task<IPaginate<T>> GetListAsync(Expression<Func<T, bool>>? predicate = null,
                                     Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,

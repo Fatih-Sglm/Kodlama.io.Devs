@@ -20,11 +20,9 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules
             if (result.Items.Any()) throw new DuplicateException("Programing Language name exists.");
         }
 
-        public async Task<ProgramingLanguage> BrandShouldExist(Guid id)
+        public void ProgramingLanguageShouldExist(ProgramingLanguage pl)
         {
-            var pl = await _programingLanguageRepository.GetAsync(b => b.Id == id);
             if (pl == null) throw new NotFoundException("Requested Programing Language does not exist");
-            return pl;
         }
     }
 }

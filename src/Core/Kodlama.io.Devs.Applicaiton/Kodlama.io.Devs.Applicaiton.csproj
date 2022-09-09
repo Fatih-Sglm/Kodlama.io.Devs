@@ -20,4 +20,15 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Developers\Dtos\" />
+    <Folder Include="Features\Developers\Models\" />
+    <Folder Include="Features\Developers\Rules\" />
+    <Folder Include="Features\Developers\Queries\" />
+    <Folder Include="Features\Technologies\Rules\" />
+    <Folder Include="Features\Users\Dtos\" />
+    <Folder Include="Features\Users\Models\" />
+    <Folder Include="Features\Users\Queries\" />
+  </ItemGroup>
+
 </Project>

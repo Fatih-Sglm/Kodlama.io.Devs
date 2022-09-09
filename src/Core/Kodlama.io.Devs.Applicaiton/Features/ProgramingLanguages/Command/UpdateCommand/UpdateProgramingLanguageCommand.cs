@@ -7,7 +7,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Updat
 {
     public class UpdateProgramingLanguageCommand : IRequest<bool>
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
         public class UpdateProgramingLanguageCommandHandler : IRequestHandler<UpdateProgramingLanguageCommand, bool>
@@ -25,7 +25,8 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Updat
 
             public async Task<bool> Handle(UpdateProgramingLanguageCommand request, CancellationToken cancellationToken)
             {
-                var pl = await _programingLanguageBussinesRules.BrandShouldExist(request.id);
+                var pl = await _programingLanguageRepository.GetAsync(x => x.Id == request.Id);
+                _programingLanguageBussinesRules.ProgramingLanguageShouldExist(pl);
                 await _programingLanguageRepository.UpdateAsync(_mapper.Map(request, pl));
                 return true;
             }

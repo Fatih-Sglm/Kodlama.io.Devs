@@ -33,6 +33,7 @@ public class ExceptionMiddleware
         if (exception.GetType() == typeof(ValidationException)) return CreateValidationException(context, exception);
         if (exception.GetType() == typeof(DuplicateException)) return CreateDuplicateException(context, exception);
         if (exception.GetType() == typeof(NotFoundException)) return CreateNotFoundException(context, exception);
+        if (exception.GetType() == typeof(ClientSideException)) return CreateClientSideException(context, exception);
         if (exception.GetType() == typeof(AuthorizationException))
             return CreateAuthorizationException(context, exception);
         return CreateInternalException(context, exception);
@@ -61,6 +62,20 @@ public class ExceptionMiddleware
             Status = StatusCodes.Status400BadRequest,
             Type = "https://example.com/probs/duplicate",
             Title = "Duplicate exception",
+            Detail = exception.Message,
+            Instance = ""
+        }.ToString());
+    }
+
+    private Task CreateClientSideException(HttpContext context, Exception exception)
+    {
+        context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.BadRequest);
+
+        return context.Response.WriteAsync(new DuplicateProblemDetails
+        {
+            Status = StatusCodes.Status400BadRequest,
+            Type = "https://example.com/probs/duplicate",
+            Title = "Client-Side exception",
             Detail = exception.Message,
             Instance = ""
         }.ToString());

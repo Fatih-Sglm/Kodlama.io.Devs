@@ -14,6 +14,10 @@ namespace Kodlama.io.Devs.Persistence
         {
             services.AddDbContext<KodlamaIoDevsContext>(opt => opt.UseSqlServer(configuration.GetConnectionString("MSS")));
             services.AddScoped<IProgramingLanguageRepository, ProgramingLanguageRepository>();
+            services.AddScoped<ITechnologyRepository, TechnologyRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IProfileLinksRepository, ProfileLinksRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
     }
