@@ -1,22 +1,25 @@
 using Application;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Core.CrossCuttingConcerns.Exceptions;
 using Kodlama.io.Devs.Applicaiton;
 using Kodlama.io.Devs.Persistence;
+using Kodlama.io.Devs.Persistence.Configuration.AuotFac;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-// Add services to the container.
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacModule()));
 
 
 builder.Services.AddControllers();
 builder.Services.PersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
           .AddJwtBearer(options =>
           {

@@ -14,27 +14,21 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Users.Command.LoginUser
         {
             private readonly ITokenHelper _tokenHelper;
             private readonly IAuthRepository _authRepository;
-            private readonly AuthRepositoryRules _authRepositoryRules;
+            private readonly AuthBusinessRules _authBusinessRules;
 
-            public LoginUserCommandHandler(ITokenHelper tokenHelper, IAuthRepository authRepository, AuthRepositoryRules authRepositoryRules)
+
+            public LoginUserCommandHandler(ITokenHelper tokenHelper, IAuthRepository authRepository, AuthBusinessRules authRepositoryRules)
             {
                 _tokenHelper = tokenHelper;
                 _authRepository = authRepository;
-                _authRepositoryRules = authRepositoryRules;
+                _authBusinessRules = authRepositoryRules;
             }
             public async Task<AccessToken> Handle(LoginUserCommand request, CancellationToken cancellationToken)
             {
-                User? user = await _authRepository.GetAsync(x => x.Email == request.Email, include: c => c.Include(c => c.UserOperationClaims).ThenInclude(c => c.OperationClaim));
-                await _authRepositoryRules.UserCannotBeNull(user!);
-                await _authRepositoryRules.CheckUserPassword(request.Password, user!);
-
-                List<OperationClaim> operationClaims = new() { };
-
-                foreach (var item in user.UserOperationClaims)
-                {
-                    operationClaims.Add(item.OperationClaim);
-                }
-                return _tokenHelper.CreateToken(user!, operationClaims);
+                User user = await _authRepository.GetAsync(x => x.Email == request.Email, include: c => c.Include(c => c.UserOperationClaims).ThenInclude(c => c.OperationClaim));
+                await _authBusinessRules.UserCannotBeNull(user!);
+                await _authBusinessRules.CheckUserPassword(request.Password, user!);
+                return _tokenHelper.CreateToken(user!, user!.UserOperationClaims.Select(item => item.OperationClaim).ToList());
             }
         }
     }

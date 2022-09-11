@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Kodlama.io.Devs.Applicaiton.Features.Users.Rules;
 using Kodlama.io.Devs.Applicaiton.Services.Repositories;
 using MediatR;
 
@@ -15,6 +16,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Users.Command.UpdateUser
         {
             private readonly IUserRepository _userRepository;
             private readonly IMapper _mapper;
+            private readonly AuthBusinessRules _authBusinessRules;
 
             public UpdateUserCommandHandler(IUserRepository userRepository, IMapper mapper)
             {
@@ -25,6 +27,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Users.Command.UpdateUser
             public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
             {
                 var user = await _userRepository.GetAsync(x => x.Id == request.Id);
+                await _authBusinessRules.UserCannotBeNull(user);
                 await _userRepository.UpdateAsync(_mapper.Map(request, user));
                 return true;
             }

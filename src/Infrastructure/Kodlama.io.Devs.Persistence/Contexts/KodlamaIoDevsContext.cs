@@ -8,7 +8,7 @@ namespace Kodlama.io.Devs.Persistence.Contexts
 {
     public class KodlamaIoDevsContext : DbContext
     {
-        protected IConfiguration _configuration { get; set; }
+        protected IConfiguration Configuration { get; set; }
         public DbSet<ProgramingLanguage> ProgramingLanguages { get; set; }
         public DbSet<Technology> Technologies { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
@@ -17,7 +17,7 @@ namespace Kodlama.io.Devs.Persistence.Contexts
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
         public KodlamaIoDevsContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
         {
-            _configuration = configuration;
+            Configuration = configuration;
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
@@ -45,8 +45,10 @@ namespace Kodlama.io.Devs.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //modelBuilder.Entity<User>(p => p.ToTable("User"));
-            //modelBuilder.Entity<Developer>(p => p.ToTable("Developer"));
+            modelBuilder.Entity<User>(p => p.ToTable("User"));
+            modelBuilder.Entity<AppUser>(p => p.ToTable("AppUser"));
+
+
             //modelBuilder.Entity<ProgramingLanguage>(p =>
             //{
             //    p.ToTable("Programing_Language");

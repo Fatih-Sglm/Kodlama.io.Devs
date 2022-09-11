@@ -17,19 +17,19 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Users.Command.CreateUser
             private readonly IAuthRepository _authRepository;
             private readonly IMapper _mapper;
             private readonly ITokenHelper _tokenHelper;
-            private readonly AuthRepositoryRules _authRepositoryRules;
+            private readonly AuthBusinessRules _authBusinessRules;
 
-            public CreateUserCommandHandler(IMapper mapper, ITokenHelper tokenHelper, IAuthRepository authRepository, AuthRepositoryRules authRepositoryRules)
+            public CreateUserCommandHandler(IMapper mapper, ITokenHelper tokenHelper, IAuthRepository authRepository, AuthBusinessRules authRepositoryRules)
             {
                 _mapper = mapper;
                 _tokenHelper = tokenHelper;
                 _authRepository = authRepository;
-                _authRepositoryRules = authRepositoryRules;
+                _authBusinessRules = authRepositoryRules;
             }
 
             public async Task<AccessToken> Handle(CreateUserCommand request, CancellationToken cancellationToken)
             {
-                await _authRepositoryRules.EmailCannotDuplicate(request.Email);
+                await _authBusinessRules.EmailCannotDuplicate(request.Email);
                 var user = _mapper.Map<AppUser>(request);
                 HashingHelper.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 user.PasswordHash = passwordHash;
