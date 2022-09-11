@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Kodlama.io.Devs.Applicaiton.Features.Developers.Command.CreateDeveloper;
+using Kodlama.io.Devs.Applicaiton.Features.Developers.Command.UpdateDeveloper;
 using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.Developers.Profiles
@@ -8,7 +9,8 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Developers.Profiles
     {
         public DeveloperProfile()
         {
-            CreateMap<CreateDeveloperCommand, AppUser>();
+            CreateMap<CreateDeveloperCommand, Developer>();
+            CreateMap<UpdateDeveloperCommand, Developer>();
         }
     }
 }

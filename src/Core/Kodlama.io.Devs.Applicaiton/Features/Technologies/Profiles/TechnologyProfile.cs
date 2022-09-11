@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Persistence.Paging;
-using Kodlama.io.Devs.Applicaiton.Features.Technologies.Command;
+using Kodlama.io.Devs.Applicaiton.Features.Technologies.Command.CreateTechnology;
+using Kodlama.io.Devs.Applicaiton.Features.Technologies.Command.UpdateTechnology;
 using Kodlama.io.Devs.Applicaiton.Features.Technologies.Dtos;
 using Kodlama.io.Devs.Applicaiton.Features.Technologies.Models;
 using Kodlama.io.Devs.Domain.Entities;

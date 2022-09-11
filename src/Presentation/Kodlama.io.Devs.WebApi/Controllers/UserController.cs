@@ -1,4 +1,4 @@
-﻿using Kodlama.io.Devs.Applicaiton.Features.Users.Command.UpdateUser;
+﻿using Kodlama.io.Devs.Applicaiton.Features.AppUsers.Command.UpdateUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kodlama.io.Devs.WebApi.Controllers

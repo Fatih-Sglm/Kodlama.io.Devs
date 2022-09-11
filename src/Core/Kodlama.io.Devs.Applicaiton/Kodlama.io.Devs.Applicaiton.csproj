@@ -12,23 +12,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-    <PackageReference Include="FluentValidation" Version="11.2.1" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.1" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="FluentValidation" Version="11.2.2" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
+    <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Features\Developers\Dtos\" />
     <Folder Include="Features\Developers\Models\" />
-    <Folder Include="Features\Developers\Rules\" />
     <Folder Include="Features\Developers\Queries\" />
-    <Folder Include="Features\Technologies\Rules\" />
-    <Folder Include="Features\Users\Dtos\" />
-    <Folder Include="Features\Users\Models\" />
-    <Folder Include="Features\Users\Queries\" />
+    <Folder Include="Features\OperationClaims\Dtos\" />
+    <Folder Include="Features\OperationClaims\Models\" />
+    <Folder Include="Features\OperationClaims\Queries\" />
+    <Folder Include="Features\UserOperationClaims\Dtos\" />
+    <Folder Include="Features\AppUsers\Dtos\" />
+    <Folder Include="Features\AppUsers\Models\" />
+    <Folder Include="Features\AppUsers\Queries\" />
   </ItemGroup>
 
 </Project>

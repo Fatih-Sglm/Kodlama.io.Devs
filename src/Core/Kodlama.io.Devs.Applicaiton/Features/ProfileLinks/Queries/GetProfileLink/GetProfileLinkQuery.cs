@@ -26,8 +26,8 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Queries.GetProfileLi
 
             public async Task<GetProfileLinkDto> Handle(GetProfileLinkQuery request, CancellationToken cancellationToken)
             {
-                ProfileLink profileLink = await _profileLinksRepository.GetAsync(x => x.Id == request.Id);
-                _proFileLinksRules.PrfileLİnkMustExist(profileLink);
+                ProfileLink? profileLink = await _profileLinksRepository.GetAsync(x => x.Id == request.Id);
+                await _proFileLinksRules.CannotBeNull(profileLink);
                 return _mapper.Map<GetProfileLinkDto>(profileLink);
             }
         }

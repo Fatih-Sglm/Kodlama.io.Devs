@@ -1,9 +1,10 @@
-﻿namespace Kodlama.io.Devs.Domain.Entities
+﻿using Core.Persistence.Repositories;
+
+namespace Kodlama.io.Devs.Domain.Entities
 {
-    public enum ProfileType
+    public class ProfileType : Entity
     {
-        Github = 0,
-        Linkedin = 1,
-        Medium = 2,
+        public string PType { get; set; }
+        public ICollection<ProfileLink> ProfileLinks { get; set; }
     }
 }

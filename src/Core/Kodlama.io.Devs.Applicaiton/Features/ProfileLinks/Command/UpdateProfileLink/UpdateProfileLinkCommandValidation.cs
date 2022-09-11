@@ -6,7 +6,6 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.UpdateProfil
     {
         public UpdateProfileLinkCommandValidation()
         {
-            RuleFor(x => x.ProfileType).NotNull().WithMessage("Profile Url Cannot Be Empty");
             RuleFor(x => x.ProfileUrl).NotNull().WithMessage("Profile Url Cannot Be Empty");
         }
     }

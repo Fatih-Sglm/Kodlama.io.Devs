@@ -25,7 +25,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Creat
 
             public async Task<bool> Handle(CreateProgramingLanguageCommand request, CancellationToken cancellationToken)
             {
-                await _programingLanguageBussinesRules.ProgramingLanguageCanNotBeDuplicatedWhenInserted(request.Name);
+                await _programingLanguageBussinesRules.CanNotDuplicate(request.Name);
                 await _programingLanguageRepository.AddAsync(_mapper.Map<ProgramingLanguage>(request));
                 return true;
             }

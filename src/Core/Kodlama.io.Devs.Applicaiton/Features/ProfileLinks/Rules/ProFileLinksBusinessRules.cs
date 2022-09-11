@@ -1,10 +1,12 @@
-﻿using Core.CrossCuttingConcerns.Exceptions;
+﻿using Core.Application.BusinnesRule;
+using Core.CrossCuttingConcerns.Exceptions;
+using Core.Persistence.Paging;
 using Kodlama.io.Devs.Applicaiton.Services.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Rules
 {
-    public class ProFileLinksBusinessRules
+    public class ProFileLinksBusinessRules : IGenericBusinessRules<ProfileLink>
     {
         private readonly IProfileLinksRepository _profileLinksRepository;
 
@@ -13,10 +15,17 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Rules
             _profileLinksRepository = profileLinksRepository;
         }
 
-        public void PrfileLİnkMustExist(ProfileLink pl)
+        public Task CannotBeNull(ProfileLink item)
         {
-            if (pl == null)
+            if (item == null)
                 throw new NotFoundException("Requested Profile Link does not exist");
+            return Task.CompletedTask;
+        }
+
+        public async Task CanNotDuplicate(string ProfileUrl)
+        {
+            IPaginate<ProfileLink> result = await _profileLinksRepository.GetListAsync(b => b.ProfileUrl == ProfileUrl);
+            if (result.Items.Any()) throw new DuplicateException("Programing Language name exists.");
         }
     }
 }

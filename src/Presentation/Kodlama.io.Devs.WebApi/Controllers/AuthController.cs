@@ -1,5 +1,5 @@
-﻿using Kodlama.io.Devs.Applicaiton.Features.Users.Command.CreateUser;
-using Kodlama.io.Devs.Applicaiton.Features.Users.Command.LoginUser;
+﻿using Kodlama.io.Devs.Applicaiton.Features.AppUsers.Command.CreateUser;
+using Kodlama.io.Devs.Applicaiton.Features.AppUsers.Command.LoginUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kodlama.io.Devs.WebApi.Controllers
@@ -11,6 +11,8 @@ namespace Kodlama.io.Devs.WebApi.Controllers
         {
             return Ok(await Mediator.Send(command));
         }
+
+
 
         //[HttpPost("DeveloperRegister")]
         //public async Task<IActionResult> RegisterDeveloper([FromBody] CreateDeveloperCommand command)

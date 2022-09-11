@@ -22,7 +22,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.DeleteProfil
             public async Task<bool> Handle(DeleteProfileLinkCommand request, CancellationToken cancellationToken)
             {
                 ProfileLink? value = await _profileLinksRepository.GetAsync(x => x.Id == request.Id);
-                _proFileLinksRules.PrfileLİnkMustExist(value);
+                await _proFileLinksRules.CannotBeNull(value);
                 await _profileLinksRepository.DeleteAsync(value);
                 return true;
             }

@@ -26,21 +26,25 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_Date");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ClaimName");
 
                     b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_Date");
 
                     b.HasKey("Id");
 
-                    b.ToTable("OperationClaims");
+                    b.ToTable("OperationClaim", (string)null);
                 });
 
             modelBuilder.Entity("Core.Security.Entities.RefreshToken", b =>
@@ -95,13 +99,16 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AuthenticatorType")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("AuthenticatorType");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_Date");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -109,33 +116,44 @@ namespace Kodlama.io.Devs.Persistence.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Email");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("FirstName");
+
+                    b.Property<bool>("IsMailConfirmed")
+                        .HasColumnType("bit")
+                        .HasColumnName("IsMailConfirmed");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("LastName");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("varbinary(max)")
+                        .HasColumnName("PasswordHash");
 
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("varbinary(max)")
+                        .HasColumnName("PasswordSalt");
 
                     b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Status");
 
                     b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_Date");
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
@@ -144,19 +162,24 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_Date");
 
                     b.Property<Guid>("OperationClaimId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("OperationClaimId");
 
                     b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_Date");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("UserId");
 
                     b.HasKey("Id");
 
@@ -164,83 +187,125 @@ namespace Kodlama.io.Devs.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserOperationClaims");
+                    b.ToTable("UserOperationClaim", (string)null);
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.ProfileLink", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("AppUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_Date");
 
-                    b.Property<int>("ProfileType")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("DeveloperId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("DeveloperId");
+
+                    b.Property<Guid>("ProfileTypeId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("ProfileTypeId");
 
                     b.Property<string>("ProfileUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ProfileUrl");
 
                     b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_Date");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("DeveloperId");
 
-                    b.ToTable("ProfileLinks");
+                    b.HasIndex("ProfileTypeId");
+
+                    b.ToTable("ProfileLink", (string)null);
+                });
+
+            modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.ProfileType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_Date");
+
+                    b.Property<string>("PType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("ProfileType");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_Date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProfileType", (string)null);
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.ProgramingLanguage", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_Date");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
 
                     b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_Date");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProgramingLanguages");
+                    b.ToTable("Programing_Language", (string)null);
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.Technology", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Create_Date");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Name");
 
                     b.Property<Guid>("ProgramingLanguageId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("Programing_LanguageId");
 
                     b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Update_Date");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProgramingLanguageId");
 
-                    b.ToTable("Technologies");
+                    b.ToTable("Technology", (string)null);
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.AppUser", b =>
@@ -248,6 +313,13 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                     b.HasBaseType("Core.Security.Entities.User");
 
                     b.HasDiscriminator().HasValue("AppUser");
+                });
+
+            modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.Developer", b =>
+                {
+                    b.HasBaseType("Core.Security.Entities.User");
+
+                    b.HasDiscriminator().HasValue("Developer");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.RefreshToken", b =>
@@ -264,7 +336,7 @@ namespace Kodlama.io.Devs.Persistence.Migrations
             modelBuilder.Entity("Core.Security.Entities.UserOperationClaim", b =>
                 {
                     b.HasOne("Core.Security.Entities.OperationClaim", "OperationClaim")
-                        .WithMany()
+                        .WithMany("UserOperationClaims")
                         .HasForeignKey("OperationClaimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -282,22 +354,35 @@ namespace Kodlama.io.Devs.Persistence.Migrations
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.ProfileLink", b =>
                 {
-                    b.HasOne("Kodlama.io.Devs.Domain.Entities.AppUser", "AppUser")
+                    b.HasOne("Kodlama.io.Devs.Domain.Entities.Developer", "Developer")
                         .WithMany("ProfileLinks")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("DeveloperId");
 
-                    b.Navigation("AppUser");
+                    b.HasOne("Kodlama.io.Devs.Domain.Entities.ProfileType", "ProfileType")
+                        .WithMany("ProfileLinks")
+                        .HasForeignKey("ProfileTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Developer");
+
+                    b.Navigation("ProfileType");
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.Technology", b =>
                 {
                     b.HasOne("Kodlama.io.Devs.Domain.Entities.ProgramingLanguage", "ProgramingLanguage")
-                        .WithMany()
+                        .WithMany("Technologies")
                         .HasForeignKey("ProgramingLanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ProgramingLanguage");
+                });
+
+            modelBuilder.Entity("Core.Security.Entities.OperationClaim", b =>
+                {
+                    b.Navigation("UserOperationClaims");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.User", b =>
@@ -307,7 +392,17 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                     b.Navigation("UserOperationClaims");
                 });
 
-            modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.AppUser", b =>
+            modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.ProfileType", b =>
+                {
+                    b.Navigation("ProfileLinks");
+                });
+
+            modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.ProgramingLanguage", b =>
+                {
+                    b.Navigation("Technologies");
+                });
+
+            modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.Developer", b =>
                 {
                     b.Navigation("ProfileLinks");
                 });

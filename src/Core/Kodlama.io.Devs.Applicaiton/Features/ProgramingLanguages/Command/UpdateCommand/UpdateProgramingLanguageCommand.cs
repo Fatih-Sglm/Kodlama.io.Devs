@@ -26,7 +26,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Updat
             public async Task<bool> Handle(UpdateProgramingLanguageCommand request, CancellationToken cancellationToken)
             {
                 var pl = await _programingLanguageRepository.GetAsync(x => x.Id == request.Id);
-                _programingLanguageBussinesRules.ProgramingLanguageShouldExist(pl);
+                await _programingLanguageBussinesRules.CannotBeNull(pl);
                 await _programingLanguageRepository.UpdateAsync(_mapper.Map(request, pl));
                 return true;
             }
