@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-<<<<<<< HEAD
 using Core.Application.Pipelines.Authorization;
-=======
->>>>>>> 212bc59c1aca4443429b9a7b198d9a339f2cc72f
 using Kodlama.io.Devs.Applicaiton.Services.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
 using MediatR;
@@ -14,12 +11,8 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.CreateProfil
         public Guid ProfileTypeId { get; set; }
         public string ProfileUrl { get; set; }
         public Guid? AppUserId { get; set; }
-<<<<<<< HEAD
 
         public string[] Roles => throw new NotImplementedException();
-
-=======
->>>>>>> 212bc59c1aca4443429b9a7b198d9a339f2cc72f
         public class CreateProfileLinkCommandHandler : IRequestHandler<CreateProfileLinkCommand, bool>
         {
             private readonly IMapper _mapper;

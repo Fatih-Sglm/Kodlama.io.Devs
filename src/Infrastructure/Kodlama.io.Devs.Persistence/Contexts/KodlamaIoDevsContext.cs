@@ -13,16 +13,10 @@ namespace Kodlama.io.Devs.Persistence.Contexts
         public DbSet<ProfileLink> ProfileLinks { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
-<<<<<<< HEAD
         public KodlamaIoDevsContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
         {
-
-=======
-        public KodlamaIoDevsContext(DbContextOptions dbContextOptions, IConfiguration configuration) : base(dbContextOptions)
-        {
-            _configuration = configuration;
->>>>>>> 212bc59c1aca4443429b9a7b198d9a339f2cc72f
         }
+
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
