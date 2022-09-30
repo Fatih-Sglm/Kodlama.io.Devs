@@ -12,9 +12,9 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Delet
     public class DeleteProgramingLanguageCommandHandler : IRequestHandler<DeleteProgramingLanguageCommand, bool>
     {
         private readonly IProgramingLanguageRepository _programingLanguageRepository;
-        private readonly ProgramingLanguageBussinesRules _programingLanguageBussinesRules;
+        private readonly ProgramingLanguageBusinessRules _programingLanguageBussinesRules;
 
-        public DeleteProgramingLanguageCommandHandler(IProgramingLanguageRepository programingLanguageRepository, ProgramingLanguageBussinesRules programingLanguageBussinesRules)
+        public DeleteProgramingLanguageCommandHandler(IProgramingLanguageRepository programingLanguageRepository, ProgramingLanguageBusinessRules programingLanguageBussinesRules)
         {
             _programingLanguageRepository = programingLanguageRepository;
             _programingLanguageBussinesRules = programingLanguageBussinesRules;

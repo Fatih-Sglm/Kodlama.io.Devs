@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kodlama.io.Devs.Persistence.Migrations
 {
     [DbContext(typeof(KodlamaIoDevsContext))]
-    [Migration("20220915194826_First_Mig")]
-    partial class First_Mig
+    [Migration("20220930212256_initilize-mig")]
+    partial class initilizemig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -212,7 +212,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnName("ProfileTypeId");
 
                     b.Property<string>("ProfileUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ProfileUrl");
 
@@ -241,7 +240,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnName("Create_Date");
 
                     b.Property<string>("PType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ProfileType");
 
@@ -266,7 +264,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnName("Create_Date");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
 
@@ -291,13 +288,12 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnName("Create_Date");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
 
                     b.Property<Guid>("ProgramingLanguageId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Programing_LanguageId");
+                        .HasColumnName("ProgramingLanguageId");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2")
@@ -307,7 +303,7 @@ namespace Kodlama.io.Devs.Persistence.Migrations
 
                     b.HasIndex("ProgramingLanguageId");
 
-                    b.ToTable("Technology", (string)null);
+                    b.ToTable("Technologies", (string)null);
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.AppUser", b =>

@@ -63,6 +63,17 @@ namespace Kodlama.io.Devs.Persistence.Contexts
             //    p.Property(x => x.Name).HasColumnName("Name");
             //});
 
+            modelBuilder.Entity<Technology>(p =>
+            {
+                p.ToTable("Technologies");
+                p.Property(x => x.Id).HasColumnName("Id");
+                p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
+                p.Property(x => x.CreateDate).HasColumnName("Create_Date");
+                p.Property(x => x.Name).HasColumnName("Name");
+                p.Property(x => x.ProgramingLanguageId).HasColumnName("ProgramingLanguageId");
+                p.HasOne(x => x.ProgramingLanguage);
+            });
+
             modelBuilder.Entity<User>(p =>
             {
                 p.ToTable("User");

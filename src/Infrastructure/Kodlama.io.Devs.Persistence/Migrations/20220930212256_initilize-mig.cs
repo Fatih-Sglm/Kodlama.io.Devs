@@ -5,36 +5,50 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kodlama.io.Devs.Persistence.Migrations
 {
-    public partial class InitiliazeMig : Migration
+    public partial class initilizemig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "OperationClaims",
+                name: "OperationClaim",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ClaimName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Create_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OperationClaims", x => x.Id);
+                    table.PrimaryKey("PK_OperationClaim", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProgramingLanguages",
+                name: "ProfileType",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ProfileType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Create_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProgramingLanguages", x => x.Id);
+                    table.PrimaryKey("PK_ProfileType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Programing_Language",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Create_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Programing_Language", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,10 +62,11 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
+                    IsMailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     AuthenticatorType = table.Column<int>(type: "int", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Create_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -63,39 +78,45 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ProgramingLanguageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Create_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Technologies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Technologies_ProgramingLanguages_ProgramingLanguageId",
+                        name: "FK_Technologies_Programing_Language_ProgramingLanguageId",
                         column: x => x.ProgramingLanguageId,
-                        principalTable: "ProgramingLanguages",
+                        principalTable: "Programing_Language",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProfileLinks",
+                name: "ProfileLink",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ProfileType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProfileUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ProfileTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProfileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeveloperId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Create_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProfileLinks", x => x.Id);
+                    table.PrimaryKey("PK_ProfileLink", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProfileLinks_User_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_ProfileLink_ProfileType_ProfileTypeId",
+                        column: x => x.ProfileTypeId,
+                        principalTable: "ProfileType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProfileLink_User_DeveloperId",
+                        column: x => x.DeveloperId,
                         principalTable: "User",
                         principalColumn: "Id");
                 });
@@ -129,26 +150,26 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserOperationClaims",
+                name: "UserOperationClaim",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OperationClaimId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Create_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserOperationClaims", x => x.Id);
+                    table.PrimaryKey("PK_UserOperationClaim", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserOperationClaims_OperationClaims_OperationClaimId",
+                        name: "FK_UserOperationClaim_OperationClaim_OperationClaimId",
                         column: x => x.OperationClaimId,
-                        principalTable: "OperationClaims",
+                        principalTable: "OperationClaim",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserOperationClaims_User_UserId",
+                        name: "FK_UserOperationClaim_User_UserId",
                         column: x => x.UserId,
                         principalTable: "User",
                         principalColumn: "Id",
@@ -156,9 +177,14 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProfileLinks_AppUserId",
-                table: "ProfileLinks",
-                column: "AppUserId");
+                name: "IX_ProfileLink_DeveloperId",
+                table: "ProfileLink",
+                column: "DeveloperId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProfileLink_ProfileTypeId",
+                table: "ProfileLink",
+                column: "ProfileTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefreshToken_UserId",
@@ -171,20 +197,20 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 column: "ProgramingLanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaims_OperationClaimId",
-                table: "UserOperationClaims",
+                name: "IX_UserOperationClaim_OperationClaimId",
+                table: "UserOperationClaim",
                 column: "OperationClaimId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaims_UserId",
-                table: "UserOperationClaims",
+                name: "IX_UserOperationClaim_UserId",
+                table: "UserOperationClaim",
                 column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProfileLinks");
+                name: "ProfileLink");
 
             migrationBuilder.DropTable(
                 name: "RefreshToken");
@@ -193,13 +219,16 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 name: "Technologies");
 
             migrationBuilder.DropTable(
-                name: "UserOperationClaims");
+                name: "UserOperationClaim");
 
             migrationBuilder.DropTable(
-                name: "ProgramingLanguages");
+                name: "ProfileType");
 
             migrationBuilder.DropTable(
-                name: "OperationClaims");
+                name: "Programing_Language");
+
+            migrationBuilder.DropTable(
+                name: "OperationClaim");
 
             migrationBuilder.DropTable(
                 name: "User");

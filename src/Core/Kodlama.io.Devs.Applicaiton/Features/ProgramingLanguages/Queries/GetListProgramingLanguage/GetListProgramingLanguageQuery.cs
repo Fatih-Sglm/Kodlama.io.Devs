@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Core.Application.Pipelines.Authorization;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
 using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Models;
@@ -9,11 +8,11 @@ using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetListProgramingLanguage
 {
-    public class GetListProgramingLanguageQuery : IRequest<PLListModel>, ISecuredRequest
+    public class GetListProgramingLanguageQuery : IRequest<PLListModel>
     {
         public PageRequest PageRequest { get; set; }
 
-        public string[] Roles => new string[] { "admin" };
+        //public string[] Roles => new string[] { "admin" };
 
         public class GetListBrandQueryHandler : IRequestHandler<GetListProgramingLanguageQuery, PLListModel>
         {

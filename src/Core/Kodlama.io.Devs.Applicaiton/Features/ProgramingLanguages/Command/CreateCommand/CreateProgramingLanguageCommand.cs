@@ -14,18 +14,18 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Creat
         {
             private readonly IProgramingLanguageRepository _programingLanguageRepository;
             private readonly IMapper _mapper;
-            private readonly ProgramingLanguageBussinesRules _programingLanguageBussinesRules;
+            private readonly ProgramingLanguageBusinessRules _programingLanguageBusinessRules;
 
-            public CreateProgramingLanguageCommandHandler(IProgramingLanguageRepository programingLanguageRepository, IMapper mapper, ProgramingLanguageBussinesRules programingLanguageBussinesRules)
+            public CreateProgramingLanguageCommandHandler(IProgramingLanguageRepository programingLanguageRepository, IMapper mapper, ProgramingLanguageBusinessRules programingLanguageBusinessRules)
             {
                 _programingLanguageRepository = programingLanguageRepository;
                 _mapper = mapper;
-                _programingLanguageBussinesRules = programingLanguageBussinesRules;
+                _programingLanguageBusinessRules = programingLanguageBusinessRules;
             }
 
             public async Task<bool> Handle(CreateProgramingLanguageCommand request, CancellationToken cancellationToken)
             {
-                await _programingLanguageBussinesRules.CanNotDuplicate(request.Name);
+                await _programingLanguageBusinessRules.CanNotDuplicate(request.Name);
                 await _programingLanguageRepository.AddAsync(_mapper.Map<ProgramingLanguage>(request));
                 return true;
             }

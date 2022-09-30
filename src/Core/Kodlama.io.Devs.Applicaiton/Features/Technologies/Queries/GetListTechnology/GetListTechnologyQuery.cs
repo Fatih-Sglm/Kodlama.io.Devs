@@ -11,7 +11,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Technologies.Queries.GetListTechn
 {
     public class GetListTechnologyQuery : IRequest<TechnologyListModel>
     {
-        public PageRequest? PageRequest { get; set; }
+        public PageRequest PageRequest { get; set; }
 
         public class GetListTechnologyQueryHandler : IRequestHandler<GetListTechnologyQuery, TechnologyListModel>
         {
@@ -31,4 +31,5 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Technologies.Queries.GetListTechn
             }
         }
     }
+
 }

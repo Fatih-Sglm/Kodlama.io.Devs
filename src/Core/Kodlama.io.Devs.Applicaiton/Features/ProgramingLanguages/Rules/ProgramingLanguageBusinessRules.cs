@@ -6,11 +6,11 @@ using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules
 {
-    public class ProgramingLanguageBussinesRules : IGenericBusinessRules<ProgramingLanguage>
+    public class ProgramingLanguageBusinessRules : IGenericBusinessRules<ProgramingLanguage>
     {
         private readonly IProgramingLanguageRepository _programingLanguageRepository;
 
-        public ProgramingLanguageBussinesRules(IProgramingLanguageRepository programingLanguageRepository)
+        public ProgramingLanguageBusinessRules(IProgramingLanguageRepository programingLanguageRepository)
         {
             _programingLanguageRepository = programingLanguageRepository;
         }

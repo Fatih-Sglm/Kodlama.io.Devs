@@ -17,7 +17,7 @@ namespace Kodlama.io.Devs.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -110,6 +110,10 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("Create_Date");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -149,7 +153,7 @@ namespace Kodlama.io.Devs.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
@@ -206,7 +210,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnName("ProfileTypeId");
 
                     b.Property<string>("ProfileUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ProfileUrl");
 
@@ -235,7 +238,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnName("Create_Date");
 
                     b.Property<string>("PType")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("ProfileType");
 
@@ -260,7 +262,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnName("Create_Date");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
 
@@ -285,13 +286,12 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnName("Create_Date");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Name");
 
                     b.Property<Guid>("ProgramingLanguageId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Programing_LanguageId");
+                        .HasColumnName("ProgramingLanguageId");
 
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2")
@@ -301,14 +301,14 @@ namespace Kodlama.io.Devs.Persistence.Migrations
 
                     b.HasIndex("ProgramingLanguageId");
 
-                    b.ToTable("Technology", (string)null);
+                    b.ToTable("Technologies", (string)null);
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.AppUser", b =>
                 {
                     b.HasBaseType("Core.Security.Entities.User");
 
-                    b.ToTable("AppUser", (string)null);
+                    b.HasDiscriminator().HasValue("AppUser");
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.Developer", b =>
@@ -374,6 +374,11 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ProgramingLanguage");
+                });
+
+            modelBuilder.Entity("Core.Security.Entities.OperationClaim", b =>
+                {
+                    b.Navigation("UserOperationClaims");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.User", b =>
