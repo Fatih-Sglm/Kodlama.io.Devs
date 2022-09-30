@@ -110,10 +110,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("Create_Date");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
@@ -153,7 +149,7 @@ namespace Kodlama.io.Devs.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User", (string)null);
+                    b.ToTable("User");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("User");
                 });
@@ -312,7 +308,7 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                 {
                     b.HasBaseType("Core.Security.Entities.User");
 
-                    b.HasDiscriminator().HasValue("AppUser");
+                    b.ToTable("AppUser", (string)null);
                 });
 
             modelBuilder.Entity("Kodlama.io.Devs.Domain.Entities.Developer", b =>
@@ -378,11 +374,6 @@ namespace Kodlama.io.Devs.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("ProgramingLanguage");
-                });
-
-            modelBuilder.Entity("Core.Security.Entities.OperationClaim", b =>
-                {
-                    b.Navigation("UserOperationClaims");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.User", b =>

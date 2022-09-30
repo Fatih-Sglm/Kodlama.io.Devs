@@ -25,7 +25,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.AppUsers.Command.LoginUser
 
             public async Task<AccessToken> Handle(LoginUserCommand request, CancellationToken cancellationToken)
             {
-                AppUser? appUser = await _appUserRepository.GetAsync(x => x.Email == request.Email, include: c => c.Include(c => c.UserOperationClaims).ThenInclude(c => c.OperationClaim));
+                AppUser appUser = await _appUserRepository.GetAsync(x => x.Email == request.Email, include: c => c.Include(c => c.UserOperationClaims).ThenInclude(c => c.OperationClaim));
                 await _appUserBusinessRules.CannotBeNull(appUser!);
                 await _appUserBusinessRules.CheckUserPassword(request.Password, appUser!);
                 await _appUserBusinessRules.EmailMustBeConfirmed(appUser.IsMailConfirmed);

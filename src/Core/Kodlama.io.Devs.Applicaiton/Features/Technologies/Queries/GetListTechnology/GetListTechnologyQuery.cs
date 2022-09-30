@@ -26,7 +26,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Technologies.Queries.GetListTechn
 
             public async Task<TechnologyListModel> Handle(GetListTechnologyQuery request, CancellationToken cancellationToken)
             {
-                IPaginate<Technology> obj = await _technologyRepository.GetListAsync(index: request.PageRequest.Page, size: request.PageRequest.PageSize, include: m => m.Include(m => m.ProgramingLanguage));
+                IPaginate<Technology> obj = await _technologyRepository.GetListAsync(index: request.PageRequest.Page, size: request.PageRequest.PageSize, include: m => m.Include(m => m.ProgramingLanguage), cancellationToken: cancellationToken);
                 return _mapper.Map<TechnologyListModel>(obj);
             }
         }

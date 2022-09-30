@@ -7,7 +7,7 @@ namespace Kodlama.io.Devs.WebApi.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
-        protected IMediator? Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
-        private IMediator? _mediator;
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        private IMediator _mediator;
     }
 }

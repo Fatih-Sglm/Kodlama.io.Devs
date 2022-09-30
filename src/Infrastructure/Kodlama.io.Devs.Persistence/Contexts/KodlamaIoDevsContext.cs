@@ -2,21 +2,21 @@
 using Core.Security.Entities;
 using Kodlama.io.Devs.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Kodlama.io.Devs.Persistence.Contexts
 {
     public class KodlamaIoDevsContext : DbContext
     {
-        protected IConfiguration Configuration { get; set; }
         public DbSet<ProgramingLanguage> ProgramingLanguages { get; set; }
         public DbSet<Technology> Technologies { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ProfileLink> ProfileLinks { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
         public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
-        public KodlamaIoDevsContext(DbContextOptions dbContextOptions, IConfiguration configuration) :
-            base(dbContextOptions) => Configuration = configuration;
+        public KodlamaIoDevsContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+        {
+
+        }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
@@ -52,16 +52,16 @@ namespace Kodlama.io.Devs.Persistence.Contexts
                 p.HasMany(x => x.Technologies);
             });
 
-            modelBuilder.Entity<Technology>(p =>
-            {
-                p.ToTable("Technology");
-                p.Property(x => x.Id).HasColumnName("Id");
-                p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
-                p.Property(x => x.CreateDate).HasColumnName("Create_Date");
-                p.Property(x => x.Name).HasColumnName("Name");
-                p.Property(x => x.ProgramingLanguageId).HasColumnName("Programing_LanguageId");
-                p.HasOne(x => x.ProgramingLanguage);
-            });
+            //modelBuilder.Entity<User>(p => p.ToTable("User"));
+            //modelBuilder.Entity<Developer>(p => p.ToTable("Developer"));
+            //modelBuilder.Entity<ProgramingLanguage>(p =>
+            //{
+            //    p.ToTable("Programing_Language");
+            //    p.Property(x => x.Id).HasColumnName("Id");
+            //    p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
+            //    p.Property(x => x.CreateDate).HasColumnName("Create_Date");
+            //    p.Property(x => x.Name).HasColumnName("Name");
+            //});
 
             modelBuilder.Entity<User>(p =>
             {
