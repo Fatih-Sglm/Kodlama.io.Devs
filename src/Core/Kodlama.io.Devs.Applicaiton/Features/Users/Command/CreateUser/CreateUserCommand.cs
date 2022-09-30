@@ -19,12 +19,21 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Users.Command.CreateUser
             private readonly ITokenHelper _tokenHelper;
             private readonly AuthBusinessRules _authBusinessRules;
 
+<<<<<<< HEAD
             public CreateUserCommandHandler(IAppUserRepository appUserRepository, IMapper mapper, ITokenHelper tokenHelper, AuthBusinessRules authBusinessRules)
+=======
+            public CreateUserCommandHandler(IMapper mapper, ITokenHelper tokenHelper, IAuthRepository authRepository, AuthBusinessRules authRepositoryRules)
+>>>>>>> 212bc59c1aca4443429b9a7b198d9a339f2cc72f
             {
                 _appUserRepository = appUserRepository;
                 _mapper = mapper;
                 _tokenHelper = tokenHelper;
+<<<<<<< HEAD
                 _authBusinessRules = authBusinessRules;
+=======
+                _authRepository = authRepository;
+                _authBusinessRules = authRepositoryRules;
+>>>>>>> 212bc59c1aca4443429b9a7b198d9a339f2cc72f
             }
 
             public async Task<AccessToken> Handle(CreateUserCommand request, CancellationToken cancellationToken)
