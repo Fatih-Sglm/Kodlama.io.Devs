@@ -4,7 +4,6 @@ using Autofac.Extensions.DependencyInjection;
 using Core.CrossCuttingConcerns.Exceptions;
 using Kodlama.io.Devs.Applicaiton;
 using Kodlama.io.Devs.Persistence;
-using Kodlama.io.Devs.WebApi.Configuration.AutoFac;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

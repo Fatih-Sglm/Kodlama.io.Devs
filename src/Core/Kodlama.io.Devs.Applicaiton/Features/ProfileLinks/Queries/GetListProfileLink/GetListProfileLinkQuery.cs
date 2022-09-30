@@ -28,6 +28,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Queries.GetListProfi
 
             public async Task<GetListProfileLinkModel> Handle(GetListProfileLinkQuery request, CancellationToken cancellationToken)
             {
+                //var val = _httpContextAccessor.HttpContext.User.ClaimRoles()
                 IPaginate<ProfileLink> obj = await _profileLinksRepository.GetListAsync(index: request.PageRequest.Page, size: request.PageRequest.PageSize);
                 return _mapper.Map<GetListProfileLinkModel>(obj);
             }
