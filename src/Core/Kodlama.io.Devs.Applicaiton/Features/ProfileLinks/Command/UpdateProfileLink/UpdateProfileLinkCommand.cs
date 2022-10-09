@@ -1,35 +1,31 @@
-﻿using AutoMapper;
-using Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Rules;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
-using Kodlama.io.Devs.Domain.Entities;
+﻿using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
+using Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.CreateProfileLink;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.UpdateProfileLink
 {
-    public class UpdateProfileLinkCommand : IRequest<bool>
+    public class UpdateProfileLinkCommand : IRequest<bool>, ISecuredRequest
     {
         public Guid Id { get; set; }
         public Guid ProfileTypeId { get; set; }
         public string ProfileUrl { get; set; }
 
+        public string[] Roles => new[] { nameof(CreateProfileLinkCommand) };
+
+
         public class UpdateProfileLinkCommandHandler : IRequestHandler<UpdateProfileLinkCommand, bool>
         {
-            public readonly IMapper _mapper;
-            private readonly IProfileLinksRepository _profileLinksRepository;
-            private readonly ProFileLinksBusinessRules _proFileLinksBusinessRules;
+            private readonly IProfileLinkService _profileLinkService;
 
-            public UpdateProfileLinkCommandHandler(IMapper mapper, IProfileLinksRepository profileLinksRepository, ProFileLinksBusinessRules proFileLinksBusinessRules)
+            public UpdateProfileLinkCommandHandler(IProfileLinkService profileLinkService)
             {
-                _mapper = mapper;
-                _profileLinksRepository = profileLinksRepository;
-                _proFileLinksBusinessRules = proFileLinksBusinessRules;
+                _profileLinkService = profileLinkService;
             }
 
             public async Task<bool> Handle(UpdateProfileLinkCommand request, CancellationToken cancellationToken)
             {
-                ProfileLink? profile = await _profileLinksRepository.GetAsync(x => x.Id == request.Id);
-                await _proFileLinksBusinessRules.CannotBeNull(profile);
-                await _profileLinksRepository.UpdateAsync(_mapper.Map(request, profile));
+                await _profileLinkService.Update(request);
                 return true;
             }
         }

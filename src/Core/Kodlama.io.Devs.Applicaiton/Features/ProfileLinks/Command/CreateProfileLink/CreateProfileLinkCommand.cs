@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Core.Application.Pipelines.Authorization;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
-using Kodlama.io.Devs.Domain.Entities;
+﻿using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.CreateProfileLink
@@ -12,21 +10,19 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.CreateProfil
         public string ProfileUrl { get; set; }
         public Guid? AppUserId { get; set; }
 
-        public string[] Roles => throw new NotImplementedException();
+        public string[] Roles => new[] { nameof(CreateProfileLinkCommand) };
         public class CreateProfileLinkCommandHandler : IRequestHandler<CreateProfileLinkCommand, bool>
         {
-            private readonly IMapper _mapper;
-            private readonly IProfileLinksRepository _profileLinksRepository;
+            private readonly IProfileLinkService _profileLinkService;
 
-            public CreateProfileLinkCommandHandler(IMapper mapper, IProfileLinksRepository profileLinksRepository)
+            public CreateProfileLinkCommandHandler(IProfileLinkService profileLinkService)
             {
-                _mapper = mapper;
-                _profileLinksRepository = profileLinksRepository;
+                _profileLinkService = profileLinkService;
             }
 
             public async Task<bool> Handle(CreateProfileLinkCommand request, CancellationToken cancellationToken)
             {
-                await _profileLinksRepository.AddAsync(_mapper.Map<ProfileLink>(request));
+                await _profileLinkService.Create(request);
                 return true;
             }
         }

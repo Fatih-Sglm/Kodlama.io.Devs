@@ -51,7 +51,6 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
             response = await GetResponseAndAddToCache();
             _logger.LogInformation($"Added to Cache -> {request.CacheKey}");
         }
-
         return response;
     }
 }

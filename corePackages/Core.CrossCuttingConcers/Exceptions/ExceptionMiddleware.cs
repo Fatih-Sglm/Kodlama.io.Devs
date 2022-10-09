@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Core.CrossCuttingConcerns.Logging.Serilog;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -8,10 +9,12 @@ namespace Core.CrossCuttingConcerns.Exceptions;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly LoggerServiceBase _loggerServiceBase;
 
-    public ExceptionMiddleware(RequestDelegate next)
+    public ExceptionMiddleware(RequestDelegate next, LoggerServiceBase loggerServiceBase)
     {
         _next = next;
+        _loggerServiceBase = loggerServiceBase;
     }
 
     public async Task Invoke(HttpContext context)
@@ -23,6 +26,7 @@ public class ExceptionMiddleware
         catch (Exception exception)
         {
             await HandleExceptionAsync(context, exception);
+            CreateLogging(exception);
         }
     }
 
@@ -42,7 +46,6 @@ public class ExceptionMiddleware
     private Task CreateAuthorizationException(HttpContext context, Exception exception)
     {
         context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.Unauthorized);
-
         return context.Response.WriteAsync(new AuthorizationProblemDetails
         {
             Status = StatusCodes.Status401Unauthorized,
@@ -67,7 +70,7 @@ public class ExceptionMiddleware
         }.ToString());
     }
 
-    private Task CreateClientSideException(HttpContext context, Exception exception)
+    private static Task CreateClientSideException(HttpContext context, Exception exception)
     {
         context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.BadRequest);
 
@@ -123,5 +126,10 @@ public class ExceptionMiddleware
             Detail = exception.Message,
             Instance = ""
         }.ToString());
+    }
+
+    private void CreateLogging(Exception ex)
+    {
+        _loggerServiceBase.Error(ex.Message);
     }
 }

@@ -9,7 +9,6 @@ public static class IQueryablePaginateExtensions
                                                               CancellationToken cancellationToken = default)
     {
         if (from > index) throw new ArgumentException($"From: {from} > Index: {index}, must from <= Index");
-
         int count = await source.CountAsync(cancellationToken).ConfigureAwait(false);
         List<T> items = await source.Skip((index - from) * size).Take(size).ToListAsync(cancellationToken)
                                     .ConfigureAwait(false);

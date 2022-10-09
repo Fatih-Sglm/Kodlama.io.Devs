@@ -1,11 +1,11 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using Core.Security.Encryption;
+﻿using Core.Security.Encryption;
 using Core.Security.Entities;
 using Core.Security.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace Core.Security.JWT;
 
@@ -37,14 +37,13 @@ public class JwtHelper : ITokenHelper
         };
     }
 
-    public RefreshToken CreateRefreshToken(User user, string ipAddress)
+    public RefreshToken CreateRefreshToken(User user, string ipAddress, int refresftokenDay)
     {
         RefreshToken refreshToken = new()
         {
             UserId = user.Id,
             Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
-            Expires = DateTime.UtcNow.AddDays(7),
-            Created = DateTime.UtcNow,
+            Expires = DateTime.Now.AddDays(refresftokenDay),
             CreatedByIp = ipAddress
         };
 

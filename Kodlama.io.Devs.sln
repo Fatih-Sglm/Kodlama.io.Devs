@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Persistence", "corePac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Security", "corePackages\Core.Security\Core.Security.csproj", "{838BB366-987C-44A9-8913-CCEB7C4F0EE8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{BF186C23-52C1-4B34-965F-1B740321398F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{838BB366-987C-44A9-8913-CCEB7C4F0EE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{838BB366-987C-44A9-8913-CCEB7C4F0EE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{838BB366-987C-44A9-8913-CCEB7C4F0EE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF186C23-52C1-4B34-965F-1B740321398F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF186C23-52C1-4B34-965F-1B740321398F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF186C23-52C1-4B34-965F-1B740321398F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF186C23-52C1-4B34-965F-1B740321398F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +110,7 @@ Global
 		{A45D6E49-9E45-4ABB-BB4A-0485BF5217AD} = {DC6BA4FA-E896-4D1F-A116-0F9195F4D961}
 		{DDEB4A93-E8B0-4175-B1C8-30D40AD772E4} = {DC6BA4FA-E896-4D1F-A116-0F9195F4D961}
 		{838BB366-987C-44A9-8913-CCEB7C4F0EE8} = {DC6BA4FA-E896-4D1F-A116-0F9195F4D961}
+		{BF186C23-52C1-4B34-965F-1B740321398F} = {24786C90-57B4-4610-ADB5-7911BEF2221F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DA870B4-6FD3-4F67-940A-45EDB5803854}

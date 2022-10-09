@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Features.Technologies.Dtos;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

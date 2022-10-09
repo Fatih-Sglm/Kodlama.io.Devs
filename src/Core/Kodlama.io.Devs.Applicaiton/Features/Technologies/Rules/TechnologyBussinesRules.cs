@@ -1,7 +1,7 @@
 ﻿using Core.Application.BusinnesRule;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Persistence.Paging;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.Technologies.Rules

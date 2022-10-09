@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Core.Application.Requests;
 using Core.Persistence.Paging;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Features.Technologies.Models;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

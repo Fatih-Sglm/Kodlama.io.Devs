@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.Technologies.Command.UpdateTechnology

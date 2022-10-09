@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.4.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentValidation" Version="11.2.2" />
@@ -21,16 +23,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Developers\Dtos\" />
-    <Folder Include="Features\Developers\Models\" />
-    <Folder Include="Features\Developers\Queries\" />
-    <Folder Include="Features\OperationClaims\Dtos\" />
-    <Folder Include="Features\OperationClaims\Models\" />
+    <Folder Include="Features\Auths\Dtos\" />
+    <Folder Include="Features\OperationClaims\Command\" />
+    <Folder Include="Features\Users\Developers\Dtos\" />
+    <Folder Include="Features\Users\Developers\Models\" />
+    <Folder Include="Features\Users\Developers\Queries\" />
     <Folder Include="Features\OperationClaims\Queries\" />
-    <Folder Include="Features\UserOperationClaims\Dtos\" />
-    <Folder Include="Features\AppUsers\Dtos\" />
-    <Folder Include="Features\AppUsers\Models\" />
-    <Folder Include="Features\AppUsers\Queries\" />
+    <Folder Include="Features\Users\AppUsers\Dtos\" />
+    <Folder Include="Features\Users\AppUsers\Models\" />
+    <Folder Include="Features\Users\AppUsers\Queries\" />
   </ItemGroup>
 
 </Project>

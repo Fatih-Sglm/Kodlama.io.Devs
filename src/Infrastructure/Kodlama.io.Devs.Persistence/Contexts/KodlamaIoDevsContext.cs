@@ -7,15 +7,20 @@ namespace Kodlama.io.Devs.Persistence.Contexts
 {
     public class KodlamaIoDevsContext : DbContext
     {
+        public KodlamaIoDevsContext(DbContextOptions options) : base(options)
+        {
+        }
+
         public DbSet<ProgramingLanguage> ProgramingLanguages { get; set; }
         public DbSet<Technology> Technologies { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ProfileLink> ProfileLinks { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
-        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
-        public KodlamaIoDevsContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
-        {
-        }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<OtpAuthenticator> OtpAuthenticators { get; set; }
+        public DbSet<EmailAuthenticator> EmailAuthenticators { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
 
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
@@ -44,7 +49,7 @@ namespace Kodlama.io.Devs.Persistence.Contexts
         {
             modelBuilder.Entity<ProgramingLanguage>(p =>
             {
-                p.ToTable("Programing_Language");
+                p.ToTable("Programing_Languages");
                 p.Property(x => x.Id).HasColumnName("Id");
                 p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
                 p.Property(x => x.CreateDate).HasColumnName("Create_Date");
@@ -52,16 +57,47 @@ namespace Kodlama.io.Devs.Persistence.Contexts
                 p.HasMany(x => x.Technologies);
             });
 
-            //modelBuilder.Entity<User>(p => p.ToTable("User"));
-            //modelBuilder.Entity<Developer>(p => p.ToTable("Developer"));
-            //modelBuilder.Entity<ProgramingLanguage>(p =>
-            //{
-            //    p.ToTable("Programing_Language");
-            //    p.Property(x => x.Id).HasColumnName("Id");
-            //    p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
-            //    p.Property(x => x.CreateDate).HasColumnName("Create_Date");
-            //    p.Property(x => x.Name).HasColumnName("Name");
-            //});
+            modelBuilder.Entity<OtpAuthenticator>(p =>
+            {
+                p.ToTable("OtpAuthenticators");
+                p.Property(x => x.Id).HasColumnName("Id");
+                p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
+                p.Property(x => x.CreateDate).HasColumnName("Create_Date");
+                p.Property(x => x.UserId).HasColumnName("UserId");
+                p.Property(x => x.SecretKey).HasColumnName("SecretKey");
+                p.Property(x => x.IsVerified).HasColumnName("IsVerified");
+                p.HasOne(x => x.User);
+            });
+
+            modelBuilder.Entity<EmailAuthenticator>(p =>
+            {
+                p.ToTable("EmailAuthenticators");
+                p.Property(x => x.Id).HasColumnName("Id");
+                p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
+                p.Property(x => x.CreateDate).HasColumnName("Create_Date");
+                p.Property(x => x.UserId).HasColumnName("UserId");
+                p.Property(x => x.ActivationKey).HasColumnName("ActivationKey");
+                p.Property(x => x.IsVerified).HasColumnName("IsVerified");
+                p.HasOne(x => x.User);
+            });
+
+            modelBuilder.Entity<RefreshToken>(p =>
+            {
+                p.ToTable("RefreshTokens");
+                p.Property(x => x.Id).HasColumnName("Id");
+                p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
+                p.Property(x => x.CreateDate).HasColumnName("Create_Date");
+
+                p.Property(x => x.UserId).HasColumnName("UserId");
+                p.Property(x => x.Token).HasColumnName("Token");
+                p.Property(x => x.Expires).HasColumnName("Expires");
+                p.Property(x => x.CreatedByIp).HasColumnName("CreatedByIp");
+                p.Property(x => x.Revoked).HasColumnName("Revoked");
+                p.Property(x => x.RevokedByIp).HasColumnName("RevokedByIp");
+                p.Property(x => x.ReplacedByToken).HasColumnName("ReplacedByToken");
+                p.Property(x => x.ReasonRevoked).HasColumnName("ReasonRevoked");
+                p.HasOne(x => x.User).WithMany(x => x.RefreshTokens);
+            });
 
             modelBuilder.Entity<Technology>(p =>
             {
@@ -76,7 +112,7 @@ namespace Kodlama.io.Devs.Persistence.Contexts
 
             modelBuilder.Entity<User>(p =>
             {
-                p.ToTable("User");
+                p.ToTable("Users");
                 p.Property(x => x.Id).HasColumnName("Id");
                 p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
                 p.Property(x => x.CreateDate).HasColumnName("Create_Date");
@@ -88,13 +124,13 @@ namespace Kodlama.io.Devs.Persistence.Contexts
                 p.Property(x => x.PasswordSalt).HasColumnName("PasswordSalt");
                 p.Property(x => x.PasswordHash).HasColumnName("PasswordHash");
                 p.Property(x => x.IsMailConfirmed).HasColumnName("IsMailConfirmed");
-                p.HasMany(x => x.RefreshTokens);
-                p.HasMany(x => x.UserOperationClaims);
+                p.HasMany(x => x.RefreshTokens).WithOne(x => x.User);
+                p.HasMany(x => x.UserRole).WithMany(x => x.RoleUsers);
             });
 
             modelBuilder.Entity<ProfileLink>(p =>
             {
-                p.ToTable("ProfileLink");
+                p.ToTable("ProfileLinks");
                 p.Property(x => x.Id).HasColumnName("Id");
                 p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
                 p.Property(x => x.CreateDate).HasColumnName("Create_Date");
@@ -107,7 +143,7 @@ namespace Kodlama.io.Devs.Persistence.Contexts
 
             modelBuilder.Entity<ProfileType>(p =>
             {
-                p.ToTable("ProfileType");
+                p.ToTable("ProfileTypes");
                 p.Property(x => x.Id).HasColumnName("Id");
                 p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
                 p.Property(x => x.CreateDate).HasColumnName("Create_Date");
@@ -121,26 +157,41 @@ namespace Kodlama.io.Devs.Persistence.Contexts
             });
             modelBuilder.Entity<OperationClaim>(p =>
             {
-                p.ToTable("OperationClaim");
+                p.ToTable("OperationClaims");
                 p.Property(x => x.Id).HasColumnName("Id");
                 p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
                 p.Property(x => x.CreateDate).HasColumnName("Create_Date");
-                p.Property(x => x.Name).HasColumnName("ClaimName");
-                p.HasMany(x => x.UserOperationClaims);
+                p.Property(x => x.Name).HasColumnName("Name");
+                p.HasMany(x => x.RolesClaims);
             });
 
-            modelBuilder.Entity<UserOperationClaim>(p =>
+            modelBuilder.Entity<Role>(p =>
             {
-                p.ToTable("UserOperationClaim");
+                p.ToTable("Roles");
                 p.Property(x => x.Id).HasColumnName("Id");
                 p.Property(x => x.UpdateDate).HasColumnName("Update_Date");
                 p.Property(x => x.CreateDate).HasColumnName("Create_Date");
-                p.Property(x => x.OperationClaimId).HasColumnName("OperationClaimId");
-                p.Property(x => x.UserId).HasColumnName("UserId");
-                p.HasOne(x => x.User);
-                p.HasOne(x => x.OperationClaim);
+                p.Property(x => x.Name).HasColumnName("Name");
+                p.HasMany(x => x.OperationClaims).WithMany(x => x.RolesClaims);
+                p.HasMany(x => x.RoleUsers).WithMany(x => x.UserRole);
             });
-            base.OnModelCreating(modelBuilder);
+
+            OperationClaim operationClaim = new()
+            {
+                CreateDate = DateTime.Now,
+                Id = Guid.NewGuid(),
+                Name = "CreateProgramingLanguageCommand",
+            };
+
+            Role role = new()
+            {
+                CreateDate = DateTime.Now,
+                Id = Guid.NewGuid(),
+                Name = "Admin",
+            };
+
+            modelBuilder.Entity<Role>().HasData(role);
+            modelBuilder.Entity<OperationClaim>().HasData(operationClaim);
         }
     }
 }

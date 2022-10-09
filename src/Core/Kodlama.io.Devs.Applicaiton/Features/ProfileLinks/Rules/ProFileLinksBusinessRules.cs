@@ -1,7 +1,7 @@
 ﻿using Core.Application.BusinnesRule;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Persistence.Paging;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Rules
@@ -25,7 +25,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Rules
         public async Task CanNotDuplicate(string ProfileUrl)
         {
             IPaginate<ProfileLink> result = await _profileLinksRepository.GetListAsync(b => b.ProfileUrl == ProfileUrl);
-            if (result.Items.Any()) throw new DuplicateException("Programing Language name exists.");
+            if (result.Items.Any()) throw new DuplicateException("Profile Link  exists.");
         }
     }
 }

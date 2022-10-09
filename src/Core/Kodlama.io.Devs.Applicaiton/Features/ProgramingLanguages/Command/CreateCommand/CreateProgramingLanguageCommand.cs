@@ -1,32 +1,29 @@
-﻿using AutoMapper;
-using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
-using Kodlama.io.Devs.Domain.Entities;
+﻿using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.CreateCommand
 {
-    public class CreateProgramingLanguageCommand : IRequest<bool>
+    public class CreateProgramingLanguageCommand : IRequest<bool>, ISecuredRequest
     {
         public string Name { get; set; }
 
+        public string[] Roles => new[] { nameof(CreateProgramingLanguageCommand) };
+
         public class CreateProgramingLanguageCommandHandler : IRequestHandler<CreateProgramingLanguageCommand, bool>
         {
-            private readonly IProgramingLanguageRepository _programingLanguageRepository;
-            private readonly IMapper _mapper;
-            private readonly ProgramingLanguageBusinessRules _programingLanguageBusinessRules;
+            private readonly IProgramingLanguageService _programingLanguageService;
 
-            public CreateProgramingLanguageCommandHandler(IProgramingLanguageRepository programingLanguageRepository, IMapper mapper, ProgramingLanguageBusinessRules programingLanguageBusinessRules)
+            public CreateProgramingLanguageCommandHandler(IProgramingLanguageService programingLanguageService)
             {
-                _programingLanguageRepository = programingLanguageRepository;
-                _mapper = mapper;
-                _programingLanguageBusinessRules = programingLanguageBusinessRules;
+                _programingLanguageService = programingLanguageService;
             }
+
+
 
             public async Task<bool> Handle(CreateProgramingLanguageCommand request, CancellationToken cancellationToken)
             {
-                await _programingLanguageBusinessRules.CanNotDuplicate(request.Name);
-                await _programingLanguageRepository.AddAsync(_mapper.Map<ProgramingLanguage>(request));
+                await _programingLanguageService.Create(request);
                 return true;
             }
         }

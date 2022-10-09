@@ -6,4 +6,8 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Kodlama.io.Devs.Applicaiton\Kodlama.io.Devs.Applicaiton.csproj" />
+  </ItemGroup>
+
 </Project>

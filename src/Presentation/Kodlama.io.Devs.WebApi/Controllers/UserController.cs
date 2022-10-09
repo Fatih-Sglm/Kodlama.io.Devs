@@ -1,4 +1,5 @@
-﻿using Kodlama.io.Devs.Applicaiton.Features.AppUsers.Command.UpdateUser;
+﻿using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRoleClaim;
+using Kodlama.io.Devs.Applicaiton.Features.Users.AppUsers.Command.UpdateUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kodlama.io.Devs.WebApi.Controllers
@@ -8,6 +9,13 @@ namespace Kodlama.io.Devs.WebApi.Controllers
     {
         [HttpPut]
         public async Task<IActionResult> Update(UpdateUserCommand command)
+        {
+            await Mediator.Send(command);
+            return Ok("Güncelleme Başarılı");
+        }
+
+        [HttpPut("USerOperationClaim")]
+        public async Task<IActionResult> UserOperationClaim(UpdateRoleCommand command)
         {
             await Mediator.Send(command);
             return Ok("Güncelleme Başarılı");

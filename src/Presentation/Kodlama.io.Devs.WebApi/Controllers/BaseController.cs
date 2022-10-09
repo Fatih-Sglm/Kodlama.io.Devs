@@ -9,5 +9,6 @@ namespace Kodlama.io.Devs.WebApi.Controllers
     {
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
         private IMediator _mediator;
+
     }
 }

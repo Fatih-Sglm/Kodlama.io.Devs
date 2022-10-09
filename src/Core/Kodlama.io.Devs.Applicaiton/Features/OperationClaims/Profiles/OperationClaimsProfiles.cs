@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using Core.Persistence.Paging;
 using Core.Security.Entities;
-using Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Command.CreateOperationClaim;
-using Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Command.UpdateOperationClaim;
+using Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Dtos;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Models;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Profiles
 {
@@ -9,8 +10,8 @@ namespace Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Profiles
     {
         public OperationClaimsProfiles()
         {
-            CreateMap<CreateOperationClaimCommand, OperationClaim>();
-            CreateMap<UpdateOperationClaimCommand, OperationClaim>();
+            CreateMap<OperationClaim, GetOperationClaimsDto>().ForMember(x => x.ClaimsName, y => y.MapFrom(z => z.Name));
+            CreateMap<IPaginate<OperationClaim>, RoleModel>();
         }
     }
 }

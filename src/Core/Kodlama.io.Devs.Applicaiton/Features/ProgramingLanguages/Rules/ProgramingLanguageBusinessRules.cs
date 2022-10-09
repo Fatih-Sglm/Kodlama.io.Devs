@@ -1,7 +1,7 @@
 ﻿using Core.Application.BusinnesRule;
 using Core.CrossCuttingConcerns.Exceptions;
 using Core.Persistence.Paging;
-using Kodlama.io.Devs.Applicaiton.Services.Repositories;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules
@@ -19,6 +19,12 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules
         {
             if (item == null) throw new NotFoundException("Requested Programing Language does not exist");
             return Task.CompletedTask;
+        }
+
+        public async Task CannotBeNull(Guid Id)
+        {
+            var item = await _programingLanguageRepository.GetAsync(x => x.Id == Id);
+            if (item == null) throw new NotFoundException("Requested Programing Language does not exist");
         }
 
         public async Task CanNotDuplicate(string name)
