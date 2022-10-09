@@ -1,7 +1,7 @@
 ﻿using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using MediatR;
 
-namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRoleClaim
+namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRole
 {
     public class DeleteRoleCommand : IRequest<bool>
     {

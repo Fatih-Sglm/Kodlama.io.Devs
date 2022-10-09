@@ -12,7 +12,7 @@ using Core.Security.OtpAuthenticator;
 using Core.Security.OtpAuthenticator.OtpNet;
 using Kodlama.io.Devs.Applicaiton;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
-using Kodlama.io.Devs.Persistence.Concrete.Services;
+using Kodlama.io.Devs.Infrastructure.Service;
 using Kodlama.io.Devs.Persistence.Contexts;
 using MediatR;
 using MediatR.Extensions.Autofac.DependencyInjection;

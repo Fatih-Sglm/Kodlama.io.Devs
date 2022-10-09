@@ -1,7 +1,7 @@
 ﻿using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using MediatR;
 
-namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRoleClaim
+namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRole
 {
     public class CreateRoleCommand : IRequest<bool>
     {

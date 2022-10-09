@@ -1,7 +1,7 @@
-﻿using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRoleClaim;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRoleClaim;
+﻿using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRole;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRole;
 using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRoleClaims;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRoleClaim;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRole;
 
 namespace Kodlama.io.Devs.Applicaiton.Abstractions.Services
 {

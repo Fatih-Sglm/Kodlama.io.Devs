@@ -4,7 +4,7 @@ using Core.Security.Entities;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Rules;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRoleClaim;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRole;
 using Kodlama.io.Devs.Applicaiton.Features.Users.Rules;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;

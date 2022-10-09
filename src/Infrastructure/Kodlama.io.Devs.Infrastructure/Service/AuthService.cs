@@ -14,7 +14,7 @@ using Kodlama.io.Devs.Applicaiton.Features.Users.Rules;
 using Kodlama.io.Devs.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Kodlama.io.Devs.Persistence.Concrete.Services
+namespace Kodlama.io.Devs.Infrastructure.Service
 {
     public class AuthService : IAuthService
     {
@@ -25,12 +25,11 @@ namespace Kodlama.io.Devs.Persistence.Concrete.Services
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IMapper _mapper;
         private readonly UserBusinessRules _userBusinessRules;
-        private readonly IRoleRepository _roleRepository;
 
         public AuthService(ITokenHelper tokenHelper, IRefreshTokenRepository
             refreshTokenRepository, IDeveloperRepository developerRepository,
             IAppUserRepository appUserRepository, AuthBusinessRules
-            authBusinessRules, IMapper mapper, UserBusinessRules userBusinessRules, IRoleRepository roleRepository)
+            authBusinessRules, IMapper mapper, UserBusinessRules userBusinessRules)
         {
             _tokenHelper = tokenHelper;
             _refreshTokenRepository = refreshTokenRepository;
@@ -39,7 +38,6 @@ namespace Kodlama.io.Devs.Persistence.Concrete.Services
             _authBusinessRules = authBusinessRules;
             _mapper = mapper;
             _userBusinessRules = userBusinessRules;
-            _roleRepository = roleRepository;
         }
 
         public async Task InsertRefreshTokenTokenAsync(RefreshToken refreshToken)

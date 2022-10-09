@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Core.Security.Entities;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRoleClaim;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRole;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Profiles
 {

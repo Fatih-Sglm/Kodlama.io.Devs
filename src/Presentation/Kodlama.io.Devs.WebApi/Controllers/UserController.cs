@@ -1,4 +1,4 @@
-﻿using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRoleClaim;
+﻿using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRole;
 using Kodlama.io.Devs.Applicaiton.Features.Users.AppUsers.Command.UpdateUser;
 using Microsoft.AspNetCore.Mvc;
 

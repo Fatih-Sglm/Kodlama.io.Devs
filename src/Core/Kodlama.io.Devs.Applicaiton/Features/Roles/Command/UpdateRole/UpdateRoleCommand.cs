@@ -1,7 +1,7 @@
 ﻿using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using MediatR;
 
-namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRoleClaim
+namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRole
 {
     public class UpdateRoleCommand : IRequest<bool>
     {

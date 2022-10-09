@@ -1,5 +1,5 @@
 ﻿using Core.Application.Requests;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRoleClaim;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRole;
 using Kodlama.io.Devs.Applicaiton.Features.Roles.Queries;
 using Microsoft.AspNetCore.Mvc;
 

@@ -2,10 +2,10 @@
 using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Rules;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRoleClaim;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRoleClaim;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRole;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRole;
 using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRoleClaims;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRoleClaim;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRole;
 using Kodlama.io.Devs.Persistence.Concrete.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
