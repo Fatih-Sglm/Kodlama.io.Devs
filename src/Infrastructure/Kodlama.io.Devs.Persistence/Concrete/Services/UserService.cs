@@ -30,11 +30,11 @@ namespace Kodlama.io.Devs.Persistence.Concrete.Services
         {
             var user = await _userRepository.GetAsync(x => x.Id == command.Id, c => c.Include(x => x.UserRole));
             await _userBusinessRules.CannotBeNull(user);
-            user.UserRole = await CreateUserRole(user, command.UserRoles);
+            user.UserRole = await UserRoleOption(user, command.UserRoles);
             await _userRepository.UpdateAsync(_mapper.Map(command, user));
         }
 
-        private async Task<Collection<Role>> CreateUserRole(User user, IList<Guid> Roles)
+        private async Task<Collection<Role>> UserRoleOption(User user, IList<Guid> Roles)
         {
             if (user.UserRole is not null)
                 user.UserRole.Clear();
