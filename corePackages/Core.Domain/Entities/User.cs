@@ -1,9 +1,9 @@
-﻿using Core.Persistence.Repositories;
-using Core.Security.Enums;
+﻿using Core.Domain.Base;
+using Core.Domain.Enums;
 
-namespace Core.Security.Entities;
+namespace Core.Domain.Entities;
 
-public class User : Entity
+public class User : Entity<Guid>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

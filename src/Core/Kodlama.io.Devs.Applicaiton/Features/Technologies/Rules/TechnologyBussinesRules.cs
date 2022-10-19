@@ -6,7 +6,7 @@ using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.Technologies.Rules
 {
-    public class TechnologyBussinesRules : IGenericBusinessRules<Technology>
+    public class TechnologyBussinesRules : GenericBusinessRules<Technology>
     {
         private readonly ITechnologyRepository _technologyRepository;
 
@@ -15,16 +15,10 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Technologies.Rules
             _technologyRepository = technologyRepository;
         }
 
-        public async Task CanNotDuplicate(string name)
+        public override async Task CanNotDuplicate(string name)
         {
             IPaginate<Technology> result = await _technologyRepository.GetListAsync(b => b.Name == name);
             if (result.Items.Any()) throw new DuplicateException("Programing Language name exists.");
-        }
-
-        public Task CannotBeNull(Technology item)
-        {
-            if (item == null) throw new NotFoundException("Böyle bir teknoloji Bulunamadı");
-            return Task.CompletedTask;
         }
     }
 }

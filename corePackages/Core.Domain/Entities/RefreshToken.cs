@@ -1,8 +1,8 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Domain.Base;
 
-namespace Core.Security.Entities;
+namespace Core.Domain.Entities;
 
-public class RefreshToken : Entity
+public class RefreshToken : Entity<Guid>
 {
     public Guid UserId { get; set; }
     public string Token { get; set; }

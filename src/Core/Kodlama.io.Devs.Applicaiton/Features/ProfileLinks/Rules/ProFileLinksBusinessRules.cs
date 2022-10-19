@@ -6,23 +6,18 @@ using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Rules
 {
-    public class ProFileLinksBusinessRules : IGenericBusinessRules<ProfileLink>
+    public class ProfileLinksBusinessRules : GenericBusinessRules<ProfileLink>
     {
         private readonly IProfileLinksRepository _profileLinksRepository;
 
-        public ProFileLinksBusinessRules(IProfileLinksRepository profileLinksRepository)
+        public ProfileLinksBusinessRules(IProfileLinksRepository profileLinksRepository)
         {
             _profileLinksRepository = profileLinksRepository;
         }
 
-        public Task CannotBeNull(ProfileLink item)
-        {
-            if (item == null)
-                throw new NotFoundException("Requested Profile Link does not exist");
-            return Task.CompletedTask;
-        }
 
-        public async Task CanNotDuplicate(string ProfileUrl)
+
+        public override async Task CanNotDuplicate(string ProfileUrl)
         {
             IPaginate<ProfileLink> result = await _profileLinksRepository.GetListAsync(b => b.ProfileUrl == ProfileUrl);
             if (result.Items.Any()) throw new DuplicateException("Profile Link  exists.");

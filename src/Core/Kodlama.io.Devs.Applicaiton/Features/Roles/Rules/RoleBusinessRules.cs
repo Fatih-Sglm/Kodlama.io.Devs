@@ -1,16 +1,11 @@
 ﻿using Core.Application.BusinnesRule;
-using Core.Security.Entities;
+using Core.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Rules
 {
-    public class RoleBusinessRules : IGenericBusinessRules<Role>
+    public class RoleBusinessRules : GenericBusinessRules<Role>
     {
-        public Task CannotBeNull(Role item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task CanNotDuplicate(string name)
+        public override Task CanNotDuplicate(string name)
         {
             throw new NotImplementedException();
         }

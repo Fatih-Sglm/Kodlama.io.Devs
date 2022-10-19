@@ -1,4 +1,4 @@
-﻿using Core.Security.Entities;
+﻿using Core.Domain.Entities;
 using Core.Security.JWT;
 using Kodlama.io.Devs.Applicaiton.Features.Auths.Command.AppUsersCommand.LoginAppUser;
 using Kodlama.io.Devs.Applicaiton.Features.Auths.Command.AppUsersCommand.RegisterAppUser;
@@ -14,6 +14,6 @@ namespace Kodlama.io.Devs.Applicaiton.Abstractions.Services
         Task<AccessToken> LoginDeveloper(LoginDeveloperCommand request, string Ip);
         Task<NoContentDto> RegisterAppUser(RegisterAppUserCommand request);
         Task<NoContentDto> RegisterDeveloper(RegisterDeveloperCommand corequestmmand);
-        Task InsertRefreshTokenTokenAsync(RefreshToken refreshToken);
+        Task InsertRefreshTokenAsync(RefreshToken refreshToken);
     }
 }

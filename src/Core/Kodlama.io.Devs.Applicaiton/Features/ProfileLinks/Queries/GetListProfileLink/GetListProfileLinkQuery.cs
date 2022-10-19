@@ -23,7 +23,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Queries.GetListProfi
 
             public async Task<GetListProfileLinkModel> Handle(GetListProfileLinkQuery request, CancellationToken cancellationToken)
             {
-                return await _profileLinkService.Get(request);
+                return await _profileLinkService.GetUserProfileLinks(request);
             }
         }
     }

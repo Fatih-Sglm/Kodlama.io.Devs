@@ -1,4 +1,6 @@
-﻿using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
+﻿using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
+using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules;
+using Kodlama.io.Devs.Domain.Entities;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.DeleteCommand
@@ -9,16 +11,21 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Delet
     }
     public class DeleteProgramingLanguageCommandHandler : IRequestHandler<DeleteProgramingLanguageCommand, bool>
     {
-        private readonly IProgramingLanguageService _programingLanguageService;
+        private readonly IProgramingLanguageRepository _programingLanguageRepository;
+        private readonly ProgramingLanguageBusinessRules _programingLanguageBusinessRules;
 
-        public DeleteProgramingLanguageCommandHandler(IProgramingLanguageService programingLanguageService)
+        public DeleteProgramingLanguageCommandHandler(IProgramingLanguageRepository programingLanguageRepository,
+            ProgramingLanguageBusinessRules programingLanguageBusinessRules)
         {
-            _programingLanguageService = programingLanguageService;
+            _programingLanguageRepository = programingLanguageRepository;
+            _programingLanguageBusinessRules = programingLanguageBusinessRules;
         }
 
         public async Task<bool> Handle(DeleteProgramingLanguageCommand request, CancellationToken cancellationToken)
         {
-            await _programingLanguageService.Delete(request);
+            ProgramingLanguage? programingLanguage = await _programingLanguageRepository.GetAsync(x => x.Id == Guid.Parse(request.Id));
+            await _programingLanguageBusinessRules.CannotBeNull(programingLanguage);
+            await _programingLanguageRepository.DeleteAsync(programingLanguage);
             return true;
         }
     }

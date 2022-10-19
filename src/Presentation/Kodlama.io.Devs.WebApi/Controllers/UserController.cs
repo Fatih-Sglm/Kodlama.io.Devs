@@ -1,4 +1,4 @@
-﻿using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRole;
+﻿using Kodlama.io.Devs.Applicaiton.Features.Roles.Queries;
 using Kodlama.io.Devs.Applicaiton.Features.Users.AppUsers.Command.UpdateUser;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +14,11 @@ namespace Kodlama.io.Devs.WebApi.Controllers
             return Ok("Güncelleme Başarılı");
         }
 
-        [HttpPut("USerOperationClaim")]
-        public async Task<IActionResult> UserOperationClaim(UpdateRoleCommand command)
+        [HttpGet("{UserId}")]
+        public async Task<IActionResult> GetUserRoles([FromRoute] Guid UserId)
         {
-            await Mediator.Send(command);
-            return Ok("Güncelleme Başarılı");
+            GetUserRoleQuery query = new() { UserId = UserId };
+            return Ok(await Mediator.Send(query));
         }
     }
 }

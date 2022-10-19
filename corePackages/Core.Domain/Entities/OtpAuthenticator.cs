@@ -1,8 +1,8 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Domain.Base;
 
-namespace Core.Security.Entities;
+namespace Core.Domain.Entities;
 
-public class OtpAuthenticator : Entity
+public class OtpAuthenticator : Entity<Guid>
 {
     public Guid UserId { get; set; }
     public byte[] SecretKey { get; set; }

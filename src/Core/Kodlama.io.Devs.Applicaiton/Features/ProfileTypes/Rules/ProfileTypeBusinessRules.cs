@@ -6,7 +6,7 @@ using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProfileTypes.Rules
 {
-    public class ProfileTypeBusinessRules : IGenericBusinessRules<ProfileLink>
+    public class ProfileTypeBusinessRules : GenericBusinessRules<ProfileLink>
     {
         private readonly IProfileTypeRepository _profileTypeRepository;
 
@@ -14,14 +14,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileTypes.Rules
         {
             _profileTypeRepository = profileTypeRepository;
         }
-
-        public Task CannotBeNull(ProfileLink item)
-        {
-            if (item == null) throw new NotFoundException("Böyle Bir Profil Tipi Bulunamadı!!");
-            return Task.CompletedTask;
-        }
-
-        public async Task CanNotDuplicate(string name)
+        public override async Task CanNotDuplicate(string name)
         {
             IPaginate<ProfileType> items = await _profileTypeRepository.GetListAsync();
             if (items.Items.Any()) throw new DuplicateException("Bu Profil Tipi Daha Önce Eklenmiş!!");

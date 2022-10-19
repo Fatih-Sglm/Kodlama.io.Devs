@@ -1,10 +1,11 @@
-﻿using System.Linq.Expressions;
+﻿using Core.Domain.Base;
 using Core.Persistence.Paging;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 
 namespace Core.Persistence.Repositories;
 
-public interface IRepository<T> : IQuery<T> where T : Entity
+public interface IRepository<T> : IQuery<T> where T : IEntity
 {
     T Get(Expression<Func<T, bool>> predicate);
 

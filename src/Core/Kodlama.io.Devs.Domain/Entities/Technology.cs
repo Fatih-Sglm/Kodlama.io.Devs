@@ -2,7 +2,7 @@
 
 namespace Kodlama.io.Devs.Domain.Entities
 {
-    public class Technology : Entity
+    public class Technology : Entity<Guid>
     {
         public string Name { get; set; }
         public Guid ProgramingLanguageId { get; set; }

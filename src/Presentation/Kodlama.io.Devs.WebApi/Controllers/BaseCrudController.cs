@@ -5,6 +5,7 @@ namespace Kodlama.io.Devs.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class BaseCrudController<TInsert, TUpdate, TDelete, TGetIdQuery, TListQeury> : BaseController
         where TInsert : IBaseRequest
         where TUpdate : IBaseRequest

@@ -1,8 +1,8 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Domain.Base;
 
-namespace Core.Security.Entities;
+namespace Core.Domain.Entities;
 
-public class OperationClaim : Entity
+public class OperationClaim : Entity<Guid>
 {
     public string Name { get; set; }
 

@@ -1,8 +1,8 @@
-﻿using Core.Persistence.Repositories;
+﻿using Core.Domain.Base;
 
-namespace Core.Security.Entities;
+namespace Core.Domain.Entities;
 
-public class Role : Entity
+public class Role : Entity<Guid>
 {
     public string Name { get; set; }
     public ICollection<User> RoleUsers { get; set; }

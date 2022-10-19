@@ -1,19 +1,18 @@
 ﻿using Core.Application.BusinnesRule;
 using Core.CrossCuttingConcerns.Exceptions;
-using Core.Security.Entities;
+using Core.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Rules
 {
-    public class OperationClaimsBusinessRules : IGenericBusinessRules<OperationClaim>
+    public class OperationClaimsBusinessRules : GenericBusinessRules<OperationClaim>
     {
 
         public Task CannotBeNull(OperationClaim item)
         {
-            if (item == null) throw new NotFoundException("Requested Operation Claims does not exist");
+            if (item == null) throw new NotFoundException("");
             return Task.CompletedTask;
         }
-
-        public Task CanNotDuplicate(string name)
+        public override Task CanNotDuplicate(string name)
         {
             throw new NotImplementedException();
         }

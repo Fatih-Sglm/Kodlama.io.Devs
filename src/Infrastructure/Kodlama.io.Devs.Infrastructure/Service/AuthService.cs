@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Security.Entities;
+using Core.Domain.Entities;
 using Core.Security.Hashing;
 using Core.Security.JWT;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
@@ -19,20 +19,23 @@ namespace Kodlama.io.Devs.Infrastructure.Service
     public class AuthService : IAuthService
     {
         private readonly ITokenHelper _tokenHelper;
-        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly IRefreshTokenService _refreshTokenService;
         private readonly IDeveloperRepository _developerRepository;
         private readonly IAppUserRepository _appUserRepository;
         private readonly AuthBusinessRules _authBusinessRules;
         private readonly IMapper _mapper;
         private readonly UserBusinessRules _userBusinessRules;
 
-        public AuthService(ITokenHelper tokenHelper, IRefreshTokenRepository
-            refreshTokenRepository, IDeveloperRepository developerRepository,
-            IAppUserRepository appUserRepository, AuthBusinessRules
-            authBusinessRules, IMapper mapper, UserBusinessRules userBusinessRules)
+        public AuthService(ITokenHelper tokenHelper,
+               IRefreshTokenService refreshTokenService,
+               IDeveloperRepository developerRepository,
+               IAppUserRepository appUserRepository,
+               AuthBusinessRules authBusinessRules,
+               UserBusinessRules userBusinessRules,
+               IMapper mapper)
         {
             _tokenHelper = tokenHelper;
-            _refreshTokenRepository = refreshTokenRepository;
+            _refreshTokenService = refreshTokenService;
             _developerRepository = developerRepository;
             _appUserRepository = appUserRepository;
             _authBusinessRules = authBusinessRules;
@@ -40,9 +43,9 @@ namespace Kodlama.io.Devs.Infrastructure.Service
             _userBusinessRules = userBusinessRules;
         }
 
-        public async Task InsertRefreshTokenTokenAsync(RefreshToken refreshToken)
+        public async Task InsertRefreshTokenAsync(RefreshToken refreshToken)
         {
-            await _refreshTokenRepository.AddAsync(refreshToken);
+            await _refreshTokenService.InsertRefreshTokenAsync(refreshToken);
         }
 
         public async Task<AccessToken> LoginAppUser(LoginAppUserCommand request, string Ip)
@@ -51,7 +54,7 @@ namespace Kodlama.io.Devs.Infrastructure.Service
             await AuthBusinessRules.UserCannotBeNull(appUser!);
             await AuthBusinessRules.CheckUserPassword(request.Password, appUser!);
             await AuthBusinessRules.EmailMustBeConfirmed(appUser.IsMailConfirmed);
-            await InsertRefreshTokenTokenAsync(_tokenHelper.CreateRefreshToken(appUser, Ip, 1));
+            await InsertRefreshTokenAsync(_tokenHelper.CreateRefreshToken(appUser, Ip, 1));
             return _tokenHelper.CreateToken(appUser!, appUser.UserRole.SelectMany(x => x.OperationClaims).ToList());
         }
 
@@ -61,7 +64,7 @@ namespace Kodlama.io.Devs.Infrastructure.Service
             await _userBusinessRules.CannotBeNull(developer);
             await _userBusinessRules.CheckUserPassword(request.Password, developer);
             await _userBusinessRules.EmailMustBeConfirmed(developer.IsMailConfirmed);
-            await InsertRefreshTokenTokenAsync(_tokenHelper.CreateRefreshToken(developer, Ip, 1));
+            await InsertRefreshTokenAsync(_tokenHelper.CreateRefreshToken(developer, Ip, 1));
             return _tokenHelper.CreateToken(developer!, developer.UserRole.SelectMany(x => x.OperationClaims).ToList());
         }
 

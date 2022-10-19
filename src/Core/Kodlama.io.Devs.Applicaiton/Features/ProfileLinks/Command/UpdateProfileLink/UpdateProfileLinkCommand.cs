@@ -1,6 +1,9 @@
-﻿using Core.Application.Pipelines.Authorization;
-using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
+﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.CreateProfileLink;
+using Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Rules;
+using Kodlama.io.Devs.Domain.Entities;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.UpdateProfileLink
@@ -16,16 +19,23 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProfileLinks.Command.UpdateProfil
 
         public class UpdateProfileLinkCommandHandler : IRequestHandler<UpdateProfileLinkCommand, bool>
         {
-            private readonly IProfileLinkService _profileLinkService;
+            private readonly IProfileLinksRepository _profileLinksRepository;
+            private readonly ProfileLinksBusinessRules _profileLinksBusinessRules;
+            private readonly IMapper _mapper;
 
-            public UpdateProfileLinkCommandHandler(IProfileLinkService profileLinkService)
+            public UpdateProfileLinkCommandHandler(IProfileLinksRepository profileLinksRepository,
+                ProfileLinksBusinessRules profileLinksBusinessRules, IMapper mapper)
             {
-                _profileLinkService = profileLinkService;
+                _profileLinksRepository = profileLinksRepository;
+                _profileLinksBusinessRules = profileLinksBusinessRules;
+                _mapper = mapper;
             }
 
             public async Task<bool> Handle(UpdateProfileLinkCommand request, CancellationToken cancellationToken)
             {
-                await _profileLinkService.Update(request);
+                ProfileLink? profile = await _profileLinksRepository.GetAsync(x => x.Id == request.Id);
+                await _profileLinksBusinessRules.CannotBeNull(profile);
+                await _profileLinksRepository.UpdateAsync(_mapper.Map(request, profile));
                 return true;
             }
         }

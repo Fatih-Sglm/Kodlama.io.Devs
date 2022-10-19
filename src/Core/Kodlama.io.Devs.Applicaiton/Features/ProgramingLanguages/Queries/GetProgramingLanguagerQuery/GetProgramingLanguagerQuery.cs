@@ -1,5 +1,7 @@
-﻿using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
+﻿using AutoMapper;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Dtos;
+using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetProgramingLanguagerQuery
@@ -10,15 +12,23 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetPr
     }
     public class GetProgramingLanguagerQueryHandler : IRequestHandler<GetProgramingLanguagerQuery, PLLDto>
     {
-        private readonly IProgramingLanguageService _programingLanguageService;
+        private readonly IProgramingLanguageRepository _programingLanguageRepository;
+        private readonly ProgramingLanguageBusinessRules _programingLanguageBusinessRules;
+        private readonly IMapper _mapper;
 
-        public GetProgramingLanguagerQueryHandler(IProgramingLanguageService programingLanguageService)
+        public GetProgramingLanguagerQueryHandler(IProgramingLanguageRepository programingLanguageRepository,
+            ProgramingLanguageBusinessRules programingLanguageBusinessRules, IMapper mapper)
         {
-            _programingLanguageService = programingLanguageService;
+            _programingLanguageRepository = programingLanguageRepository;
+            _programingLanguageBusinessRules = programingLanguageBusinessRules;
+            _mapper = mapper;
         }
+
         public async Task<PLLDto> Handle(GetProgramingLanguagerQuery request, CancellationToken cancellationToken)
         {
-            return await _programingLanguageService.GetById(request);
+            var pl = await _programingLanguageRepository.GetAsync(b => b.Id == request.Id);
+            await _programingLanguageBusinessRules.CannotBeNull(pl);
+            return _mapper.Map<PLLDto>(pl);
         }
     }
 }

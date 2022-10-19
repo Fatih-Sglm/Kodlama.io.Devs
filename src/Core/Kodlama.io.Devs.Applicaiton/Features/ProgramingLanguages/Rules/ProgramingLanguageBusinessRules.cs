@@ -6,7 +6,7 @@ using Kodlama.io.Devs.Domain.Entities;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules
 {
-    public class ProgramingLanguageBusinessRules : IGenericBusinessRules<ProgramingLanguage>
+    public class ProgramingLanguageBusinessRules : GenericBusinessRules<ProgramingLanguage>
     {
         private readonly IProgramingLanguageRepository _programingLanguageRepository;
 
@@ -14,20 +14,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules
         {
             _programingLanguageRepository = programingLanguageRepository;
         }
-
-        public Task CannotBeNull(ProgramingLanguage item)
-        {
-            if (item == null) throw new NotFoundException("Requested Programing Language does not exist");
-            return Task.CompletedTask;
-        }
-
-        public async Task CannotBeNull(Guid Id)
-        {
-            var item = await _programingLanguageRepository.GetAsync(x => x.Id == Id);
-            if (item == null) throw new NotFoundException("Requested Programing Language does not exist");
-        }
-
-        public async Task CanNotDuplicate(string name)
+        public override async Task CanNotDuplicate(string name)
         {
             IPaginate<ProgramingLanguage> result = await _programingLanguageRepository.GetListAsync(b => b.Name == name);
             if (result.Items.Any()) throw new DuplicateException("Programing Language name exists.");

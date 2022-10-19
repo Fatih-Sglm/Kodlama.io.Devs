@@ -1,4 +1,6 @@
-﻿using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
+﻿using Core.Domain.Entities;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
+using Kodlama.io.Devs.Applicaiton.Features.Roles.Rules;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRole
@@ -9,16 +11,20 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRole
 
         public class DeleteUserOperationClaimCommandHandler : IRequestHandler<DeleteRoleCommand, bool>
         {
-            IRoleService _roleService;
+            private readonly IRoleRepository _roleRepository;
+            private readonly RoleBusinessRules _roleBusinessRules;
 
-            public DeleteUserOperationClaimCommandHandler(IRoleService roleService)
+            public DeleteUserOperationClaimCommandHandler(IRoleRepository roleRepository, RoleBusinessRules roleBusinessRules)
             {
-                _roleService = roleService;
+                _roleRepository = roleRepository;
+                _roleBusinessRules = roleBusinessRules;
             }
 
             public async Task<bool> Handle(DeleteRoleCommand request, CancellationToken cancellationToken)
             {
-                await _roleService.Delete(request);
+                Role? role = await _roleRepository.GetAsync(x => x.Id == request.Id);
+                await _roleBusinessRules.CannotBeNull(role);
+                await _roleRepository.DeleteAsync(role);
                 return true;
             }
         }

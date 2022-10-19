@@ -30,7 +30,6 @@ builder.WebHost.ConfigureKestrel((context, options) =>
 
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
-
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacModule()));
 builder.Services.AddDbContext<KodlamaIoDevsContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("MSS")));
 builder.Services.AddDistributedMemoryCache();

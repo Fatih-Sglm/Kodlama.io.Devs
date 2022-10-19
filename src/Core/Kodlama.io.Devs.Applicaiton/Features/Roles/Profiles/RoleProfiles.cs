@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Security.Entities;
+using Core.Domain.Entities;
 using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRole;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Profiles

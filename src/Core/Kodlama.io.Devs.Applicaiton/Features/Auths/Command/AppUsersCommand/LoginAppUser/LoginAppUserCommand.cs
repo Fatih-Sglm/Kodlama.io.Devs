@@ -21,8 +21,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Auths.Command.AppUsersCommand.Log
 
             public async Task<AccessToken> Handle(LoginAppUserCommand request, CancellationToken cancellationToken)
             {
-                return await _authService.LoginAppUser(request,
-                    _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString());
+                return await _authService.LoginAppUser(request, _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString());
             }
         }
     }

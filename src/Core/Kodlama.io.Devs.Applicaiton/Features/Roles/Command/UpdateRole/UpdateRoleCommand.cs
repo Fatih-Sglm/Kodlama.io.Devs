@@ -7,7 +7,7 @@ namespace Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRole
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public IList<Guid> OperationClaimsId { get; set; }
+        public IList<Guid>? OperationClaimsId { get; set; }
         public class UpdateRoleCommandCommandHandler : IRequestHandler<UpdateRoleCommand, bool>
         {
             private readonly IRoleService _roleService;

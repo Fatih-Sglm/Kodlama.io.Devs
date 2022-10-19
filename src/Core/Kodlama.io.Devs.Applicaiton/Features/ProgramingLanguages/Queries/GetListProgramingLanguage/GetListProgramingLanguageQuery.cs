@@ -1,7 +1,10 @@
-﻿using Core.Application.Pipelines.Authorization;
+﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
 using Core.Application.Requests;
-using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
+using Core.Persistence.Paging;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Models;
+using Kodlama.io.Devs.Domain.Entities;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetListProgramingLanguage
@@ -14,16 +17,20 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetLi
 
         public class GetListBrandQueryHandler : IRequestHandler<GetListProgramingLanguageQuery, PLListModel>
         {
-            private readonly IProgramingLanguageService _programingLanguageService;
+            private readonly IProgramingLanguageRepository _programingLanguageRepository;
+            private readonly IMapper _mapper;
 
-            public GetListBrandQueryHandler(IProgramingLanguageService programingLanguageService)
+            public GetListBrandQueryHandler(IProgramingLanguageRepository programingLanguageRepository, IMapper mapper)
             {
-                _programingLanguageService = programingLanguageService;
+                _programingLanguageRepository = programingLanguageRepository;
+                _mapper = mapper;
             }
 
             public async Task<PLListModel> Handle(GetListProgramingLanguageQuery request, CancellationToken cancellationToken)
             {
-                return await _programingLanguageService.Get(request);
+                IPaginate<ProgramingLanguage> pl = await _programingLanguageRepository.
+                    GetListAsync(index: request.PageRequest.Page, size: request.PageRequest.PageSize);
+                return _mapper.Map<PLListModel>(pl);
             }
         }
     }

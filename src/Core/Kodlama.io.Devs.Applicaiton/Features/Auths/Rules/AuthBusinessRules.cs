@@ -1,6 +1,6 @@
 ﻿using Core.CrossCuttingConcerns.Exceptions;
+using Core.Domain.Entities;
 using Core.Persistence.Paging;
-using Core.Security.Entities;
 using Core.Security.Hashing;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 

@@ -2,7 +2,7 @@
 
 namespace Kodlama.io.Devs.Domain.Entities
 {
-    public class ProfileLink : Entity
+    public class ProfileLink : Entity<Guid>
     {
         public Guid ProfileTypeId { get; set; }
         public ProfileType ProfileType { get; set; }

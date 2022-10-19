@@ -1,5 +1,8 @@
-﻿using Core.Application.Pipelines.Authorization;
-using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
+﻿using AutoMapper;
+using Core.Application.Pipelines.Authorization;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
+using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules;
+using Kodlama.io.Devs.Domain.Entities;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.CreateCommand
@@ -12,18 +15,22 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Creat
 
         public class CreateProgramingLanguageCommandHandler : IRequestHandler<CreateProgramingLanguageCommand, bool>
         {
-            private readonly IProgramingLanguageService _programingLanguageService;
+            private readonly IProgramingLanguageRepository _programingLanguageRepository;
+            private readonly ProgramingLanguageBusinessRules _programingLanguageBusinessRules;
+            private readonly IMapper _mapper;
 
-            public CreateProgramingLanguageCommandHandler(IProgramingLanguageService programingLanguageService)
+            public CreateProgramingLanguageCommandHandler(IProgramingLanguageRepository programingLanguageRepository,
+                ProgramingLanguageBusinessRules programingLanguageBusinessRules, IMapper mapper)
             {
-                _programingLanguageService = programingLanguageService;
+                _programingLanguageRepository = programingLanguageRepository;
+                _programingLanguageBusinessRules = programingLanguageBusinessRules;
+                _mapper = mapper;
             }
-
-
 
             public async Task<bool> Handle(CreateProgramingLanguageCommand request, CancellationToken cancellationToken)
             {
-                await _programingLanguageService.Create(request);
+                await _programingLanguageBusinessRules.CanNotDuplicate(request.Name);
+                await _programingLanguageRepository.AddAsync(_mapper.Map<ProgramingLanguage>(request));
                 return true;
             }
         }

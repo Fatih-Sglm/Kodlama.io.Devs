@@ -1,4 +1,4 @@
-﻿using Core.Security.Entities;
+﻿using Core.Domain.Entities;
 
 namespace Kodlama.io.Devs.Domain.Entities
 {

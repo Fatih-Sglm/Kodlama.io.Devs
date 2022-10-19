@@ -1,6 +1,4 @@
-﻿using Core.Domain.Base;
-
-namespace Core.Persistence.Repositories;
+﻿namespace Core.Domain.Base;
 
 public abstract class Entity<T> : IEntity
 {

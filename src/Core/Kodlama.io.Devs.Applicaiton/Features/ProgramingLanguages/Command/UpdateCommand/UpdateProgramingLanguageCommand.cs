@@ -1,4 +1,6 @@
-﻿using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
+﻿using AutoMapper;
+using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
+using Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Rules;
 using MediatR;
 
 namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.UpdateCommand
@@ -10,16 +12,23 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Command.Updat
 
         public class UpdateProgramingLanguageCommandHandler : IRequestHandler<UpdateProgramingLanguageCommand, bool>
         {
-            private readonly IProgramingLanguageService _programingLanguageService;
+            private readonly IProgramingLanguageRepository _programingLanguageRepository;
+            private readonly ProgramingLanguageBusinessRules _programingLanguageBusinessRules;
+            private readonly IMapper _mapper;
 
-            public UpdateProgramingLanguageCommandHandler(IProgramingLanguageService programingLanguageService)
+            public UpdateProgramingLanguageCommandHandler(IProgramingLanguageRepository programingLanguageRepository,
+                ProgramingLanguageBusinessRules programingLanguageBusinessRules, IMapper mapper)
             {
-                _programingLanguageService = programingLanguageService;
+                _programingLanguageRepository = programingLanguageRepository;
+                _programingLanguageBusinessRules = programingLanguageBusinessRules;
+                _mapper = mapper;
             }
 
             public async Task<bool> Handle(UpdateProgramingLanguageCommand request, CancellationToken cancellationToken)
             {
-                await _programingLanguageService.Update(request);
+                var pl = await _programingLanguageRepository.GetAsync(x => x.Id == request.Id);
+                await _programingLanguageBusinessRules.CannotBeNull(pl);
+                await _programingLanguageRepository.UpdateAsync(_mapper.Map(request, pl));
                 return true;
             }
         }

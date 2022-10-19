@@ -1,5 +1,5 @@
-﻿using Core.Persistence.Repositories;
-using Core.Security.Entities;
+﻿using Core.Domain.Base;
+using Core.Domain.Entities;
 using Kodlama.io.Devs.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,12 +23,12 @@ namespace Kodlama.io.Devs.Persistence.Contexts
 
 
 
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             var entries = ChangeTracker.Entries();
             foreach (var entry in entries)
             {
-                if (entry.Entity is not Entity entity) continue;
+                if (entry.Entity is not IEntity entity) continue;
                 var now = DateTime.Now;
                 switch (entry.State)
                 {
@@ -42,7 +42,7 @@ namespace Kodlama.io.Devs.Persistence.Contexts
                         break;
                 }
             }
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

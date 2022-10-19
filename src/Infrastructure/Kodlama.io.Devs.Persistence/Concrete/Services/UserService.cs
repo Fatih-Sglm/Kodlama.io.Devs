@@ -1,11 +1,10 @@
-﻿using Core.CrossCuttingConcerns.Exceptions;
-using Core.Security.Entities;
+﻿using AutoMapper;
+using Core.Domain.Entities;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using Kodlama.io.Devs.Applicaiton.Features.Roles.Dtos;
 using Kodlama.io.Devs.Applicaiton.Features.Roles.Queries;
-using Kodlama.io.Devs.Applicaiton.Features.UserRoles.Command.CreateUserRole;
-using Kodlama.io.Devs.Applicaiton.Features.UserRoles.Command.DeleteUserRole;
+using Kodlama.io.Devs.Applicaiton.Features.Users.AppUsers.Command.UpdateUser;
 using Kodlama.io.Devs.Applicaiton.Features.Users.Rules;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
@@ -16,51 +15,48 @@ namespace Kodlama.io.Devs.Persistence.Concrete.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly UserBusinessRules _userBusinessRules;
-        private readonly IRoleRepository _roleRepository;
+        private readonly IRoleService _roleService;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, UserBusinessRules userBusinessRules, IRoleRepository roleRepository)
+        public UserService(IUserRepository userRepository, UserBusinessRules userBusinessRules, IRoleService roleService, IMapper mapper)
         {
             _userRepository = userRepository;
             _userBusinessRules = userBusinessRules;
-            _roleRepository = roleRepository;
+            _roleService = roleService;
+            _mapper = mapper;
         }
 
-        public async Task CreateUserRole(CreateUserRoleCommand command)
+        public async Task Update(UpdateUserCommand command)
         {
-            User user = await _userRepository.GetAsync(x => x.Id == command.UserId);
+            var user = await _userRepository.GetAsync(x => x.Id == command.Id, c => c.Include(x => x.UserRole));
             await _userBusinessRules.CannotBeNull(user);
-            var operationClaims = user.UserRole.Select(x => x.OperationClaims.ToList());
-            var value = await _roleRepository.GetAllIQueryableAsync();
-            Collection<Role> userrole = new();
-            if (command.RolesId.Count > 0)
+            user.UserRole = await CreateUserRole(user, command.UserRoles);
+            await _userRepository.UpdateAsync(_mapper.Map(command, user));
+        }
+
+        private async Task<Collection<Role>> CreateUserRole(User user, IList<Guid> Roles)
+        {
+            if (user.UserRole is not null)
+                user.UserRole.Clear();
+            if (Roles.Count > 0)
             {
-                foreach (var item in command.RolesId)
+                var value = await _roleService.GetRoles();
+                Collection<Role> userRole = new();
+                foreach (var item in Roles)
                 {
                     Role role = await value.Where(x => x.Id == item).FirstOrDefaultAsync();
-                    userrole.Add(role);
+                    userRole.Add(role);
                 }
-                user.UserRole = userrole;
-                await _userRepository.UpdateAsync(user);
-                return;
+                return userRole;
             }
-            throw new ClientSideException("Gördermiş Olduğunuz Role Listesi Boştur!, Lütfen Tekrar deneyiniz");
+            return null;
         }
 
-        public async Task DeleteRoles(DeleteUserRoleCommand command)
-        {
-            User user = await _userRepository.GetAsync(x => x.Id == command.UserId, c => c.Include(c => c.UserRole));
-            await _userBusinessRules.CannotBeNull(user);
-            foreach (var item in command.RolesId)
-            {
-                var claim = user.UserRole.FirstOrDefault(x => x.Id == item);
-                user.UserRole.Remove(claim);
-            }
-            await _userRepository.UpdateAsync(user);
-        }
+
 
         public async Task<GetUserRoleDto> GetUserRole(GetUserRoleQuery query)
         {
-            User? user = await _userRepository.GetAsync(x => x.Id == query.UserId,
+            User user = await _userRepository.GetAsync(x => x.Id == query.UserId,
                  c => c.Include(c => c.UserRole));
             await _userBusinessRules.CannotBeNull(user);
             GetUserRoleDto getUserClaimsDto = new()

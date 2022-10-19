@@ -1,10 +1,11 @@
-﻿using Core.Persistence.Paging;
+﻿using Core.Domain.Base;
+using Core.Persistence.Paging;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 
 namespace Core.Persistence.Repositories;
 
-public interface IAsyncRepository<T> : IQuery<T> where T : Entity
+public interface IAsyncRepository<T> : IQuery<T> where T : class, IEntity
 {
     Task<T?> GetAsync(Expression<Func<T, bool>> predicate, Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = null);
 
