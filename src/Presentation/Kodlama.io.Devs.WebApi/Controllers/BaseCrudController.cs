@@ -6,13 +6,15 @@ namespace Kodlama.io.Devs.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class BaseCrudController<TInsert, TUpdate, TDelete, TGetIdQuery, TListQeury> : BaseController
+    public abstract class BaseCrudController<TInsert, TUpdate, TDelete, TGetIdQuery, TListQeury> : BaseController
         where TInsert : IBaseRequest
         where TUpdate : IBaseRequest
         where TDelete : IBaseRequest
         where TGetIdQuery : IBaseRequest
         where TListQeury : IBaseRequest
     {
+
+
         [HttpPost]
         public async Task<IActionResult> Create(TInsert command)
         {

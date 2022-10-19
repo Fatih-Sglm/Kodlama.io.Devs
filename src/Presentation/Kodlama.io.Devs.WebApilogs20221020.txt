@@ -1,0 +1,1 @@
+2022-10-20 02:11:02.463 +03:00 [Error] Could not create an instance of type 'MediatR.IBaseRequest'. Model bound complex types must not be abstract or value types and must have a parameterless constructor. Record types must have a single primary constructor. Alternatively, give the 'query' parameter a non-null default value.

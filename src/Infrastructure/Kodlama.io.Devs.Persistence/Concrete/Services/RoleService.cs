@@ -3,7 +3,6 @@ using Kodlama.io.Devs.Applicaiton.Abstractions.Repositories;
 using Kodlama.io.Devs.Applicaiton.Abstractions.Services;
 using Kodlama.io.Devs.Applicaiton.Features.OperationClaims.Rules;
 using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.CreateRole;
-using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.DeleteRoleClaims;
 using Kodlama.io.Devs.Applicaiton.Features.Roles.Command.UpdateRole;
 using Kodlama.io.Devs.Persistence.enums;
 using Microsoft.EntityFrameworkCore;
@@ -27,29 +26,27 @@ namespace Kodlama.io.Devs.Persistence.Concrete.Services
 
         public async Task Create(CreateRoleCommand command)
         {
-            Role role = await _roleRepository.AddAsync(new()
+            await _roleRepository.AddAsync(new()
             {
                 Name = command.Name,
+                OperationClaims = await OperationClaimsForeach(command.OperationClaimsId, Operations.Create, null)
             });
-            role.OperationClaims = await OperationClaimsForeach(role, command.OperationClaimsId, Operations.Create);
-            await _roleRepository.UpdateAsync(role);
         }
 
-        public async Task DeleteRoleClaims(DeleteRoleClaimsCommand command)
-        {
-            Role role = await _roleRepository.GetAsync(x => x.Id == command.Id, c => c.Include(x => x.OperationClaims));
-            if (role.OperationClaims is not null)
-                await OperationClaimsForeach(role, command.OPerationClaimsId, Operations.Remove);
-            await _roleRepository.UpdateAsync(role);
-        }
+
 
         public async Task Update(UpdateRoleCommand command)
         {
 
             Role role = await _roleRepository.GetAsync(x => x.Id == command.Id, c => c.Include(x => x.OperationClaims));
+
             if (role.OperationClaims is not null)
                 role.OperationClaims.Clear();
-            await OperationClaimsForeach(role, command.OperationClaimsId, Operations.Update);
+
+            if (command.OperationClaimsId is not null)
+                await OperationClaimsForeach(command.OperationClaimsId, Operations.Update, role);
+
+
             role.Name = command.Name;
             await _roleRepository.UpdateAsync(role);
         }
@@ -58,11 +55,11 @@ namespace Kodlama.io.Devs.Persistence.Concrete.Services
             return await _roleRepository.GetAllIQueryableAsync();
         }
 
-        private async Task<Collection<OperationClaim>> OperationClaimsForeach(Role role, IList<Guid> OperationClaimsId, Operations operations)
+        private async Task<Collection<OperationClaim>> OperationClaimsForeach(IList<Guid> OperationClaimsId, Operations operations, Role role)
         {
 
             IQueryable<OperationClaim> operationClaims = await _operationClaimsService.GetOperationClaims();
-            Collection<OperationClaim> claims = new();
+            Collection<OperationClaim> RoleClaims = new();
             foreach (var item in OperationClaimsId)
             {
                 OperationClaim operationClaim = await operationClaims.FirstOrDefaultAsync(x => x.Id == item);
@@ -72,17 +69,13 @@ namespace Kodlama.io.Devs.Persistence.Concrete.Services
                     case Operations.Update:
                         role.OperationClaims.Add(operationClaim);
                         break;
-                    case Operations.Remove:
-                        role.OperationClaims.Remove(operationClaim);
-                        break;
-
                     case Operations.Create:
-                        claims.Add(operationClaim);
+                        RoleClaims.Add(operationClaim);
                         break;
                 }
 
             }
-            return claims;
+            return RoleClaims;
         }
 
 
