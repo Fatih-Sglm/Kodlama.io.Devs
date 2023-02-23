@@ -45,8 +45,6 @@ namespace Kodlama.io.Devs.Persistence.Concrete.Services
 
             if (command.OperationClaimsId is not null)
                 await OperationClaimsForeach(command.OperationClaimsId, Operations.Update, role);
-
-
             role.Name = command.Name;
             await _roleRepository.UpdateAsync(role);
         }

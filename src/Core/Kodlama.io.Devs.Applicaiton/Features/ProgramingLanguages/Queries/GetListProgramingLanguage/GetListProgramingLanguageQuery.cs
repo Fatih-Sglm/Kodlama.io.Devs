@@ -13,7 +13,8 @@ namespace Kodlama.io.Devs.Applicaiton.Features.ProgramingLanguages.Queries.GetLi
     public class GetListProgramingLanguageQuery : IRequest<PLListModel>, ISecuredRequest
     {
         public PageRequest? PageRequest { get; set; }
-        public string[] Roles { get; } = new[] { nameof(GetListProgramingLanguageQuery) };
+
+        public string[] Roles => new[] { nameof(GetListProgramingLanguageQuery) };
 
         public class GetListBrandQueryHandler : IRequestHandler<GetListProgramingLanguageQuery, PLListModel>
         {
